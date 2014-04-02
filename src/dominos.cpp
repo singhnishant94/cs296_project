@@ -352,7 +352,7 @@ namespace cs296
 			vertices3[2].Set(3.5f,2.0f);
 			
 			int32 count = 4;
-			int count1 = 4;
+			
 			int count2 = 3;
  
 
@@ -366,7 +366,7 @@ b2PolygonShape polygon4;
 polygon4.SetAsBox(6.0f,0.5f);
 polygon3.Set(vertices3, count2);
 polygon2.Set(vertices2,count2);
-polygon1.Set(vertices1,count1);
+polygon1.Set(vertices1,count);
 polygon.Set(vertices, count);
 
 	  b2BodyDef bdx;
