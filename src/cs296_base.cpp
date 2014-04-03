@@ -253,7 +253,11 @@ void base_sim_t::callme(){
 }
 
 void base_sim_t::callme2(){
-	bodyy->ApplyLinearImpulse(b2Vec2(0,2000),b2Vec2(bodyy->GetWorldCenter().x-2.0f,bodyy->GetWorldCenter().y),true);
+	body_t->ApplyForce(b2Vec2(1000,0),b2Vec2(body_t->GetWorldCenter().x-1.0f,body_t->GetWorldCenter().y-4.0f),true);
+}
+
+void base_sim_t::callme3(){
+	body_pb->ApplyForce(b2Vec2(-1000,0),body_pb->GetWorldCenter(),true);
 }
 
 

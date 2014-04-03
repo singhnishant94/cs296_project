@@ -334,6 +334,196 @@ namespace cs296
       
       */
       
+      
+      
+      
+      
+      {
+		  //The stopper in the trigger ****************
+		
+		
+		b2Vec2 vertices_pb[4];
+			vertices_pb[0].Set(-0.5f, 0.5f);
+
+			vertices_pb[1].Set(0.5f, 0.5f);
+
+			vertices_pb[2].Set(1.5f, -4.5f);
+			vertices_pb[3].Set(0.5f, -4.5f);
+			
+		b2Vec2 vertices_pb1[4];
+			vertices_pb1[0].Set(-0.5f, 0.5f);
+
+			vertices_pb1[1].Set(4.5f, 0.5f);
+
+			vertices_pb1[2].Set(4.5f, -0.5f);
+			vertices_pb1[3].Set(-0.5f, -0.5f);
+			
+			
+		b2Vec2 vertices3[3];
+	        vertices3[0].Set(3.0f,0.0f);
+			vertices3[1].Set(5.0f,0.0f);
+			vertices3[2].Set(2.0f,1.5f);
+		
+		
+		//b2Body* body_p;
+		
+		b2PolygonShape polygon_pb;
+		polygon_pb.Set(vertices_pb,4);
+		
+		b2PolygonShape polygon_pb1;
+		polygon_pb1.Set(vertices_pb1,4);
+		
+		b2PolygonShape polygon3;
+		polygon3.Set(vertices3,3);
+		
+		b2BodyDef bd_pb;
+		bd_pb.position.Set(30.0f,13.5f);
+		bd_pb.type = b2_dynamicBody;
+		bodyy = m_world->CreateBody(&bd_pb);
+		b2FixtureDef *fd_pb = new b2FixtureDef;
+		fd_pb->density = 0.1f;
+		fd_pb->shape = new b2PolygonShape;
+		fd_pb->shape = &polygon_pb1;
+		bodyy->CreateFixture(fd_pb);
+		fd_pb->shape = &polygon_pb;
+		bodyy->CreateFixture(fd_pb);
+		fd_pb->shape = &polygon3;
+		bodyy->CreateFixture(fd_pb);
+		
+		
+		b2BodyDef bdx3;
+      bdx3.position.Set(30.5f, 13.5f);
+      b2Body* bodyx3 = m_world->CreateBody(&bdx3);
+	  b2RevoluteJointDef jointDef3xy;
+      jointDef3xy.bodyA = bodyx3;
+      jointDef3xy.bodyB = bodyy;
+      jointDef3xy.localAnchorA.Set(0,0);
+      jointDef3xy.localAnchorB.Set(0,0);
+      jointDef3xy.collideConnected = false;
+      jointDef3xy.enableMotor = true;
+      jointDef3xy.motorSpeed=1;
+      jointDef3xy.maxMotorTorque=800;
+      m_world->CreateJoint(&jointDef3xy);
+      
+      
+      b2BodyDef arod;
+      arod.type = b2_dynamicBody;
+      b2PolygonShape shaperod;
+      shaperod.SetAsBox(5.0f,0.5f);
+      arod.position.Set(20.0f,10.0f);
+      attachrod = m_world->CreateBody(&arod);
+      b2FixtureDef *fd_arod = new b2FixtureDef;
+      fd_arod->density = 0.2f;
+      fd_arod->shape = new b2PolygonShape;
+      fd_arod->shape = &shaperod;
+      attachrod->CreateFixture(fd_arod);
+      
+      b2RevoluteJointDef jointDefrod;
+      jointDefrod.bodyA = attachrod;
+      jointDefrod.bodyB = bodyy;
+      jointDefrod.localAnchorA.Set(5.0f,0.0f);
+      jointDefrod.localAnchorB.Set(1.0f,-3.5f);
+      jointDefrod.collideConnected = false;
+      
+      m_world->CreateJoint(&jointDefrod);
+      
+      
+      b2PolygonShape shapenew;
+      shapenew.SetAsBox(0.2f, 0.2f);
+      b2BodyDef bdnew;
+      bdnew.position.Set(25.5f, 9.0f);
+      b2Body* bodynew = m_world->CreateBody(&bdnew);
+      b2FixtureDef *fdnew = new b2FixtureDef;
+      fdnew->density = 0.1f;
+      fdnew->shape = new b2PolygonShape;
+      fdnew->shape = &shapenew;
+      bodynew->CreateFixture(fdnew);
+      
+     
+		  
+	  }
+      
+      
+      
+      
+      
+      
+      
+      //////////////// The Trigger /////////////////////////
+      
+      
+      {
+		  
+		  b2Vec2 vertices_pb[4];
+			vertices_pb[0].Set(-0.5f, 0.5f);
+
+			vertices_pb[1].Set(0.5f, 0.5f);
+
+			vertices_pb[2].Set(-1.5f, -3.5f);
+			vertices_pb[3].Set(-2.5f, -3.5f);
+			
+		b2Vec2 vertices_pb1[4];
+			vertices_pb1[0].Set(-0.5f, 0.5f);
+
+			vertices_pb1[1].Set(0.5f, 0.5f);
+
+			vertices_pb1[2].Set(-0.5f, 3.5f);
+			vertices_pb1[3].Set(-1.5f, 3.5f);
+		
+		
+		
+		
+		b2PolygonShape polygon_pb;
+		polygon_pb.Set(vertices_pb,4);
+		
+		b2PolygonShape polygon_pb1;
+		polygon_pb1.Set(vertices_pb1,4);
+		
+		b2BodyDef bd_pb;
+		bd_pb.position.Set(0.0f,20.0f);
+		bd_pb.type = b2_dynamicBody;
+		body_t = m_world->CreateBody(&bd_pb);
+		b2FixtureDef *fd_pb = new b2FixtureDef;
+		fd_pb->density = 0.1f;
+		fd_pb->shape = new b2PolygonShape;
+		fd_pb->shape = &polygon_pb1;
+		body_t->CreateFixture(fd_pb);
+		fd_pb->shape = &polygon_pb;
+		body_t->CreateFixture(fd_pb);
+		
+		
+		b2BodyDef bd2;
+      bd2.position.Set(22.0f, 6.5f);
+      b2Body* body2 = m_world->CreateBody(&bd2);
+		
+		
+		b2RevoluteJointDef jointDeft;
+      jointDeft.bodyA = body2;
+      jointDeft.bodyB = body_t;
+      jointDeft.localAnchorA.Set(0.0f,0.0f);
+      jointDeft.localAnchorB.Set(0.0f,0.0f);
+      jointDeft.collideConnected = false;
+      
+      m_world->CreateJoint(&jointDeft);
+      
+      
+		b2RevoluteJointDef jointDefrod;
+      jointDefrod.bodyA = attachrod;
+      jointDefrod.bodyB = body_t;
+      jointDefrod.localAnchorA.Set(-4.5f,0.0f);
+      jointDefrod.localAnchorB.Set(-1.0f,3.5f);
+      jointDefrod.collideConnected = false;
+      
+      m_world->CreateJoint(&jointDefrod);
+		  
+		  
+	  }
+      
+      
+      
+      
+      
+      
       //The revolving horizontal platform
     {
 		
@@ -361,6 +551,12 @@ namespace cs296
 			vertices3[1].Set(6.5f,0.0f);
 			vertices3[2].Set(3.5f,1.5f);
 			
+			b2Vec2 vertices5[4];
+			vertices5[0].Set(3.0f,0.0f);
+			vertices5[0].Set(4.0f,0.0f);
+			vertices5[0].Set(4.0f,-2.0f);
+			vertices5[0].Set(3.0f,-2.0f);
+			
 			int32 count = 4;
 			
 			int count2 = 3;
@@ -371,6 +567,8 @@ b2PolygonShape polygon1;
 b2PolygonShape polygon2;
 b2PolygonShape polygon3;
 b2PolygonShape polygon4;
+b2PolygonShape polygon5;
+
 
 
 polygon4.SetAsBox(6.0f,0.5f);
@@ -378,6 +576,7 @@ polygon3.Set(vertices3, count2);
 polygon2.Set(vertices2,count2);
 polygon1.Set(vertices1,count);
 polygon.Set(vertices, count);
+//polygon5.Set(vertices5, count);
 
 
 	// The hitter
@@ -395,9 +594,11 @@ polygon.Set(vertices, count);
       fdx->shape = &polygon2;
       bodyx->CreateFixture(fdx);
       
+      
+      /*
       // The stopper
       b2BodyDef bdy;
-      bdy.position.Set(30.0f, 14.0f);
+      bdy.position.Set(-30.0f, 14.0f);
       bdy.type = b2_dynamicBody;
       bodyy = m_world->CreateBody(&bdy);
       b2FixtureDef *fdy = new b2FixtureDef;
@@ -407,10 +608,12 @@ polygon.Set(vertices, count);
       bodyy->CreateFixture(fdy);
       fdy->shape = &polygon3;
       bodyy->CreateFixture(fdy);
+      //fdy->shape = &polygon5;
+      //bodyy->CreateFixture(fdy);
       
 		
 	  b2BodyDef bdx3;
-      bdx3.position.Set(30.0f, 13.0f);
+      bdx3.position.Set(-30.0f, 13.0f);
       b2Body* bodyx3 = m_world->CreateBody(&bdx3);
 	  b2RevoluteJointDef jointDef3xy;
       jointDef3xy.bodyA = bodyx3;
@@ -421,12 +624,12 @@ polygon.Set(vertices, count);
       jointDef3xy.enableMotor = true;
       jointDef3xy.motorSpeed=100;
       jointDef3xy.maxMotorTorque=800;
-      m_world->CreateJoint(&jointDef3xy);
+      m_world->CreateJoint(&jointDef3xy);*/
       
       b2PolygonShape shapenew;
       shapenew.SetAsBox(0.2f, 0.2f);
       b2BodyDef bdnew;
-      bdnew.position.Set(34.0f, 10.0f);
+      bdnew.position.Set(32.5f, 10.0f);
       b2Body* bodynew = m_world->CreateBody(&bdnew);
       b2FixtureDef *fdnew = new b2FixtureDef;
       fdnew->density = 0.1f;
@@ -435,7 +638,7 @@ polygon.Set(vertices, count);
       bodynew->CreateFixture(fdnew);
 		
 		
-      
+      //The hitter rotator ***********************
       //b2PolygonShape shape2;
       //shape2.SetAsBox(0.2f, 2.0f);
       b2BodyDef bd2;
@@ -484,7 +687,7 @@ polygon.Set(vertices, count);
       b2PolygonShape shape2;
       shape2.SetAsBox(0.2f, 2.0f);
       b2BodyDef bd32;
-      bd32.position.Set(18.0f, 20.0f);
+      bd32.position.Set(16.0f, 20.0f);
       //bd3.type = b2_dynamicBody;
       b2Body* body32 = m_world->CreateBody(&bd32);
       b2FixtureDef *fd32 = new b2FixtureDef;
@@ -522,9 +725,9 @@ polygon.Set(vertices, count);
 		b2Vec2 vertices_pb1[4];
 			vertices_pb1[0].Set(0.0f, 2.0f);
 
-			vertices_pb1[1].Set(15.0f, 2.0f);
+			vertices_pb1[1].Set(17.0f, 2.0f);
 
-			vertices_pb1[2].Set(15.0f, 1.0f);
+			vertices_pb1[2].Set(17.0f, 1.0f);
 			vertices_pb1[3].Set(0.0f, 1.0f);
 		
 		
@@ -541,25 +744,70 @@ polygon.Set(vertices, count);
 		bd_pb.type = b2_dynamicBody;
 		body_pb = m_world->CreateBody(&bd_pb);
 		b2FixtureDef *fd_pb = new b2FixtureDef;
-		fd_pb->density = 0.9f;
+		fd_pb->density = 0.1f;
 		fd_pb->shape = new b2PolygonShape;
 		fd_pb->shape = &polygon_pb1;
 		body_pb->CreateFixture(fd_pb);
 		fd_pb->shape = &polygon_pb;
 		body_pb->CreateFixture(fd_pb);
 		
+		//The pullback mechanism
+		
+		/*
+		b2Vec2 vertices_n[4];
+			vertices_n[0].Set(0.0f, 0.0f);
+
+			vertices_n[1].Set(2.0f, 0.0f);
+
+			vertices_n[2].Set(2.0f, 2.0f);
+			vertices_n[3].Set(0.0f, 2.0f);
+			
+		b2Vec2 vertices_n1[4];
+			vertices_n1[0].Set(0.0f, 2.0f);
+
+			vertices_n1[1].Set(15.0f, 2.0f);
+
+			vertices_n1[2].Set(15.0f, 1.0f);
+			vertices_n1[3].Set(0.0f, 1.0f);
+		
+		
+		b2Body* body_n;
+		
+		b2PolygonShape polygon_n;
+		polygon_n.Set(vertices_n,count);
+		
+		b2PolygonShape polygon_n1;
+		polygon_n1.Set(vertices_n1,count);
+		
+		
+		b2BodyDef bd_n;
+		bd_n.position.Set(0.0f,20.0f);
+		bd_n.type = b2_dynamicBody;
+		body_n = m_world->CreateBody(&bd_n);
+		b2FixtureDef *fd_n = new b2FixtureDef;
+		fd_n->density = 0.1f;
+		fd_n->shape = new b2PolygonShape;
+		fd_n->shape = &polygon_n1;
+		body_n->CreateFixture(fd_pb);
+		fd_n->shape = &polygon_n;
+		body_n->CreateFixture(fd_pb);
+		
 		
 		//Spring between pullback and fixed body
 		
-
+		
 		b2DistanceJointDef jointDef_pb;
 		jointDef_pb.Initialize(body_pb, body3,b2Vec2(body_pb->GetWorldCenter().x-4.0f,body_pb->GetWorldCenter().y-1.0f) ,body3->GetWorldCenter());
 		jointDef_pb.collideConnected = true;
 		jointDef_pb.frequencyHz = 4000.0f;
 		jointDef_pb.dampingRatio = 0.5f;
 		m_world->CreateJoint(&jointDef_pb);
-     
+     */
       }
+      
+      
+      
+      
       
       /*! \par Another revolving platform
       * Lower platform<br>

@@ -162,8 +162,11 @@ namespace cs296
     b2Body* temp;
     b2Body* bodyy;
     b2Body* body_pb;
+    b2Body* attachrod;
+    b2Body* body_t;
     void callme();
     void callme2();
+    void callme3();
     //void step(settings_t*);
     
     base_sim_t();
