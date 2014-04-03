@@ -248,8 +248,13 @@ void base_sim_t::step(settings_t* settings)
 
 void base_sim_t::callme(){
 	//cout <<"here\n";
-	cout <<bodyx->GetPosition().y << endl;
-	bodyx->ApplyForce(b2Vec2(1000,1000), b2Vec2(bodyx->GetWorldCenter().x,bodyx->GetWorldCenter().y+2.0f) ,true);
+	
+	body_pb->ApplyForce(b2Vec2(2000,0), body_pb->GetWorldCenter() ,true);
 }
+
+void base_sim_t::callme2(){
+	bodyy->ApplyLinearImpulse(b2Vec2(0,2000),b2Vec2(bodyy->GetWorldCenter().x-2.0f,bodyy->GetWorldCenter().y),true);
+}
+
 
 	

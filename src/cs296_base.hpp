@@ -160,7 +160,10 @@ namespace cs296
   public:
     b2Body* bodyx;
     b2Body* temp;
+    b2Body* bodyy;
+    b2Body* body_pb;
     void callme();
+    void callme2();
     //void step(settings_t*);
     
     base_sim_t();

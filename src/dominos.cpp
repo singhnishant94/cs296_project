@@ -59,6 +59,7 @@ namespace cs296
      * 
      */ 
     b2Body* b1;  
+    
     {
       
       b2EdgeShape shape; 
@@ -74,6 +75,7 @@ namespace cs296
       * Var: ground, Type: b2Body*, Desc: This is a pointer to shelf.<br>
       * */    
     //Top horizontal shelf
+    /*
     {
       b2PolygonShape shape;
       shape.SetAsBox(6.0f, 0.25f);
@@ -82,7 +84,7 @@ namespace cs296
       bd.position.Set(-31.0f, 30.0f);
       b2Body* ground = m_world->CreateBody(&bd);
       ground->CreateFixture(&shape, 0.0f);
-    }
+    }*/
 	/*! \par Dominos
 	 * Var: shape, Type: b2PolygonShape, Desc: It describes the shape of the dominos.<br>
 	 * Var: fd, Type: b2FixtureDef, Desc: It binds the body to the specified fixture.<br>
@@ -91,6 +93,7 @@ namespace cs296
 	 * ...Var: body, Type: b2Body*, Desc: This is a pointer to the dominos.<br>
 	 * */
     //Dominos
+    /*
     {
       b2PolygonShape shape;
       shape.SetAsBox(0.1f, 1.0f);
@@ -109,8 +112,7 @@ namespace cs296
 	  body->CreateFixture(&fd);
 	}
     }
-    
-    
+    */
     /*! \par Another horizontal shelf 
      * Var: shape, Type: b2PolygonShape, Desc: Defines a shape for the shelf.<br>
      * Var: bd, Type: b2BodyDef, Desc: Provides a definition for the shelf.<br>
@@ -118,6 +120,7 @@ namespace cs296
      * 
      * */
     //Another horizontal shelf
+    /*
     {
       b2PolygonShape shape;
       shape.SetAsBox(7.0f, 0.25f, b2Vec2(-20.f,20.f), 0.0f);
@@ -127,7 +130,7 @@ namespace cs296
       b2Body* ground = m_world->CreateBody(&bd);
       ground->CreateFixture(&shape, 0.0f);
     }
-
+	*/
 	/*! \par The pendulum that knocks the dominos off
 	 * Var: b2, Type: b2Body*, Desc: This is a pointer to the fixed bar at the bottom to which the pendulum is attached.<br>
 	 * ...Var: shape, Type: b2PolygonShape, Desc: Provides a definition for the shape of the bar.<br>
@@ -141,6 +144,7 @@ namespace cs296
 	 * 
 	 * */
     //The pendulum that knocks the dominos off
+    /*
     {
       b2Body* b2;
       {
@@ -171,6 +175,7 @@ namespace cs296
       jd.Initialize(b2, b4, anchor);
       m_world->CreateJoint(&jd);
     }
+    * */
       /*! \par The train of small spheres
        * Var: spherebody, Type: b2Body*, Desc: This is a pointer to the small spheres. <br>
        * Var: circle, Type: b2CircleShape, Desc: To define the radius of the spheres.<br>
@@ -181,6 +186,7 @@ namespace cs296
        * 
        * */
     //The train of small spheres
+    /*
     {
       b2Body* spherebody;
 	
@@ -202,6 +208,7 @@ namespace cs296
 	  spherebody->CreateFixture(&ballfd);
 	}
     }
+    * */
 	/*! \par The pulley system
 	 * Var: bd, Type: b2bodyDef*, Desc: This is a pointer to bar which hangs on to the right side of the pulley.<br>
 	 * Var: fd1, Type: b2FixtureDef*, Desc: This is a pointer to the fixture of one of the sides of the open box.<br>
@@ -219,6 +226,7 @@ namespace cs296
 	 * Var: worldAnchorOnBody2, Type: b2Vec2, Desc: Anchor point on ground 2 in world axis.<br>
 	 * */
     //The pulley system
+    /*
     {
       b2BodyDef *bd = new b2BodyDef;
       bd->type = b2_dynamicBody;
@@ -275,6 +283,7 @@ namespace cs296
       myjoint->Initialize(box1, box2, worldAnchorGround1, worldAnchorGround2, box1->GetWorldCenter(), box2->GetWorldCenter(), ratio);
       m_world->CreateJoint(myjoint);
     }
+    * */
 
 	/*! \par The revolving horizontal platform
 	 * Var: shape, Type: b2PolygonShape, Desc: Defines the shape of the platform.<br>
@@ -290,6 +299,7 @@ namespace cs296
 
 
     //The revolving horizontal platform
+    /*
     {
       b2PolygonShape shape;
       shape.SetAsBox(2.2f, 0.2f);
@@ -322,7 +332,7 @@ namespace cs296
      
       }
       
-      
+      */
       
       //The revolving horizontal platform
     {
@@ -345,11 +355,11 @@ namespace cs296
 			
 			vertices2[0].Set(0.0f,0.0f);
 			vertices2[1].Set(2.0f,0.0f);
-			vertices2[2].Set(3.0f,-2.0f);
+			vertices2[2].Set(3.0f,-1.5f);
 			
 			vertices3[0].Set(4.5f,0.0f);
 			vertices3[1].Set(6.5f,0.0f);
-			vertices3[2].Set(3.5f,2.0f);
+			vertices3[2].Set(3.5f,1.5f);
 			
 			int32 count = 4;
 			
@@ -369,6 +379,8 @@ polygon2.Set(vertices2,count2);
 polygon1.Set(vertices1,count);
 polygon.Set(vertices, count);
 
+
+	// The hitter
 	  b2BodyDef bdx;
       bdx.position.Set(34.0f, 20.0f);
       bdx.type = b2_dynamicBody;
@@ -378,16 +390,16 @@ polygon.Set(vertices, count);
       fdx->shape = new b2PolygonShape;
       fdx->shape = &polygon;
       bodyx->CreateFixture(fdx);
-      fdx->shape = &polygon1;
-      bodyx->CreateFixture(fdx);
+      //fdx->shape = &polygon1;
+      //bodyx->CreateFixture(fdx);
       fdx->shape = &polygon2;
       bodyx->CreateFixture(fdx);
       
-      
+      // The stopper
       b2BodyDef bdy;
       bdy.position.Set(30.0f, 14.0f);
       bdy.type = b2_dynamicBody;
-      b2Body* bodyy = m_world->CreateBody(&bdy);
+      bodyy = m_world->CreateBody(&bdy);
       b2FixtureDef *fdy = new b2FixtureDef;
       fdy->density = 1.f;
       fdy->shape = new b2PolygonShape;
@@ -398,7 +410,7 @@ polygon.Set(vertices, count);
       
 		
 	  b2BodyDef bdx3;
-      bdx3.position.Set(30.0f, 12.0f);
+      bdx3.position.Set(30.0f, 13.0f);
       b2Body* bodyx3 = m_world->CreateBody(&bdx3);
 	  b2RevoluteJointDef jointDef3xy;
       jointDef3xy.bodyA = bodyx3;
@@ -407,14 +419,14 @@ polygon.Set(vertices, count);
       jointDef3xy.localAnchorB.Set(0,0);
       jointDef3xy.collideConnected = false;
       jointDef3xy.enableMotor = true;
-            jointDef3xy.motorSpeed=100;
+      jointDef3xy.motorSpeed=100;
       jointDef3xy.maxMotorTorque=800;
       m_world->CreateJoint(&jointDef3xy);
       
       b2PolygonShape shapenew;
       shapenew.SetAsBox(0.2f, 0.2f);
       b2BodyDef bdnew;
-      bdnew.position.Set(34.0f, 9.6f);
+      bdnew.position.Set(34.0f, 10.0f);
       b2Body* bodynew = m_world->CreateBody(&bdnew);
       b2FixtureDef *fdnew = new b2FixtureDef;
       fdnew->density = 0.1f;
@@ -441,11 +453,14 @@ polygon.Set(vertices, count);
       jointDef.collideConnected = false;
       m_world->CreateJoint(&jointDef);
       
+      // The container of the pullback. *************
       
+      
+      //Lower block ****************
       b2PolygonShape shape;
       shape.SetAsBox(4.2f, 0.2f);
       b2BodyDef bd3;
-      bd3.position.Set(28.0f, 20.0f);
+      bd3.position.Set(29.0f, 20.0f);
       //bd3.type = b2_dynamicBody;
       b2Body* body3 = m_world->CreateBody(&bd3);
       b2FixtureDef *fd3 = new b2FixtureDef;
@@ -454,6 +469,29 @@ polygon.Set(vertices, count);
       fd3->shape = &shape;
       body3->CreateFixture(fd3);
       
+      //upper block *****************
+      b2BodyDef bd31;
+      bd31.position.Set(29.0f, 21.5f);
+      //bd3.type = b2_dynamicBody;
+      b2Body* body31 = m_world->CreateBody(&bd31);
+      b2FixtureDef *fd31 = new b2FixtureDef;
+      fd31->density = 0.1f;
+      fd31->shape = new b2PolygonShape;
+      fd31->shape = &shape;
+      body31->CreateFixture(fd31);
+      
+      //front stopper *******************
+      b2PolygonShape shape2;
+      shape2.SetAsBox(0.2f, 2.0f);
+      b2BodyDef bd32;
+      bd32.position.Set(18.0f, 20.0f);
+      //bd3.type = b2_dynamicBody;
+      b2Body* body32 = m_world->CreateBody(&bd32);
+      b2FixtureDef *fd32 = new b2FixtureDef;
+      fd32->density = 0.1f;
+      fd32->shape = new b2PolygonShape;
+      fd32->shape = &shape2;
+      body32->CreateFixture(fd32);
       //bodyx->ApplyForce( b2Vec2(50,0), bodyx->GetWorldCenter() ,true);
       
       /*
@@ -468,7 +506,58 @@ polygon.Set(vertices, count);
 		def.frequencyHz=100;
 		def.dampingRatio=0;
       */
-      
+     
+     
+		//The pullback mechanism
+		
+		
+		b2Vec2 vertices_pb[4];
+			vertices_pb[0].Set(0.0f, 0.0f);
+
+			vertices_pb[1].Set(2.0f, 0.0f);
+
+			vertices_pb[2].Set(2.0f, 2.0f);
+			vertices_pb[3].Set(0.0f, 2.0f);
+			
+		b2Vec2 vertices_pb1[4];
+			vertices_pb1[0].Set(0.0f, 2.0f);
+
+			vertices_pb1[1].Set(15.0f, 2.0f);
+
+			vertices_pb1[2].Set(15.0f, 1.0f);
+			vertices_pb1[3].Set(0.0f, 1.0f);
+		
+		
+		//b2Body* body_pb;
+		
+		b2PolygonShape polygon_pb;
+		polygon_pb.Set(vertices_pb,count);
+		
+		b2PolygonShape polygon_pb1;
+		polygon_pb1.Set(vertices_pb1,count);
+		
+		b2BodyDef bd_pb;
+		bd_pb.position.Set(20.0f,20.0f);
+		bd_pb.type = b2_dynamicBody;
+		body_pb = m_world->CreateBody(&bd_pb);
+		b2FixtureDef *fd_pb = new b2FixtureDef;
+		fd_pb->density = 0.9f;
+		fd_pb->shape = new b2PolygonShape;
+		fd_pb->shape = &polygon_pb1;
+		body_pb->CreateFixture(fd_pb);
+		fd_pb->shape = &polygon_pb;
+		body_pb->CreateFixture(fd_pb);
+		
+		
+		//Spring between pullback and fixed body
+		
+
+		b2DistanceJointDef jointDef_pb;
+		jointDef_pb.Initialize(body_pb, body3,b2Vec2(body_pb->GetWorldCenter().x-4.0f,body_pb->GetWorldCenter().y-1.0f) ,body3->GetWorldCenter());
+		jointDef_pb.collideConnected = true;
+		jointDef_pb.frequencyHz = 4000.0f;
+		jointDef_pb.dampingRatio = 0.5f;
+		m_world->CreateJoint(&jointDef_pb);
      
       }
       
@@ -513,6 +602,7 @@ polygon.Set(vertices, count);
       * Attachment between the upper platform and attaching rod<br>
       * ...Var: jointDef3, Type: b2RevoluteJointDef, Desc: Defines the joint between lower platform and attaching rod.<br>
       * */
+      /*
      {//Another revolving platform
      
 
@@ -659,7 +749,7 @@ polygon.Set(vertices, count);
       m_world->CreateJoint(&jointDef3);
             
       
-      }
+      }*/
 
 	/*! \par The heavy sphere on the platform
 	 * Var: sbody, Type: b2Body*, Desc: A pointer to the sphere.<br>
@@ -671,6 +761,7 @@ polygon.Set(vertices, count);
 	
 	
     //The heavy sphere on the platform
+    /*
     {
       b2Body* sbody;
       b2CircleShape circle;
@@ -687,7 +778,7 @@ polygon.Set(vertices, count);
       sbody = m_world->CreateBody(&ballbd);
       sbody->CreateFixture(&ballfd);
     }
-
+	*/
 	/*! \par The see-saw system at the bottom
 	 * The triangle wedge<br>
 	 * ...Var: sbody, Type: b2Body*, Desc: A pointer to the triangle wedge.<br>
@@ -719,6 +810,7 @@ polygon.Set(vertices, count);
      * ...Var: wedgebd5, Type: b2BodyDef, Desc: Holds the data needed to create the wedge.<br>  
 	 * */
     //The see-saw system at the bottom
+    /*
     {
       //The triangle wedge
       b2Body* sbody;
@@ -813,7 +905,7 @@ polygon.Set(vertices, count);
       sbody5 = m_world->CreateBody(&wedgebd5);
       sbody5->CreateFixture(&wedgefd5);
     }
-    
+    */
     
       b2PolygonShape shape;
       shape.SetAsBox(6.0f, 0.25f);
