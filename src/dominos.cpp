@@ -651,8 +651,8 @@ polygon.Set(vertices, count);
       jointDef.localAnchorA.Set(1,1);
       jointDef.localAnchorB.Set(0,0);
       jointDef.enableMotor = true;
-      jointDef.motorSpeed=-100;
-      jointDef.maxMotorTorque=1000;
+      jointDef.motorSpeed=-1000;
+      jointDef.maxMotorTorque=2000;
       jointDef.collideConnected = false;
       m_world->CreateJoint(&jointDef);
       
@@ -672,6 +672,12 @@ polygon.Set(vertices, count);
       fd3->shape = &shape;
       body3->CreateFixture(fd3);
       
+      
+      
+      
+     
+      
+      
       //upper block *****************
       b2BodyDef bd31;
       bd31.position.Set(29.0f, 21.5f);
@@ -685,9 +691,9 @@ polygon.Set(vertices, count);
       
       //front stopper *******************
       b2PolygonShape shape2;
-      shape2.SetAsBox(0.2f, 2.0f);
+      shape2.SetAsBox(0.2f, 1.0f);
       b2BodyDef bd32;
-      bd32.position.Set(16.0f, 20.0f);
+      bd32.position.Set(16.0f, 19.0f);
       //bd3.type = b2_dynamicBody;
       b2Body* body32 = m_world->CreateBody(&bd32);
       b2FixtureDef *fd32 = new b2FixtureDef;
@@ -750,6 +756,18 @@ polygon.Set(vertices, count);
 		body_pb->CreateFixture(fd_pb);
 		fd_pb->shape = &polygon_pb;
 		body_pb->CreateFixture(fd_pb);
+		
+		
+		
+		 b2DistanceJointDef joint4; 
+		const b2Vec2 point6(20.5f, 20.0f); 
+		const b2Vec2 point7(27.5f, 20.0f); 
+		joint4.Initialize(body_pb, body3, point6, point7); 
+		joint4.collideConnected = true; 
+		joint4.frequencyHz = 1.0f; 
+		joint4.dampingRatio =0.0f;
+		joint4.length = 11.0f;
+		 m_world->CreateJoint(&joint4);
 		
 		//The pullback mechanism
 		
@@ -1160,7 +1178,7 @@ polygon.Set(vertices, count);
 
       b2BodyDef bd;
       bd.type = b2_dynamicBody;
-      bd.position.Set(31.0f, 30.0f);
+      bd.position.Set(28.0f, 30.0f);
       temp = m_world->CreateBody(&bd);
       temp->CreateFixture(&shape, 0.0f);
     

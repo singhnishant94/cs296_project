@@ -249,11 +249,11 @@ void base_sim_t::step(settings_t* settings)
 void base_sim_t::callme(){
 	//cout <<"here\n";
 	
-	body_pb->ApplyForce(b2Vec2(2000,0), body_pb->GetWorldCenter() ,true);
+	body_pb->ApplyForce(b2Vec2(3000,0), body_pb->GetWorldCenter() ,true);
 }
 
 void base_sim_t::callme2(){
-	body_t->ApplyForce(b2Vec2(1000,0),b2Vec2(body_t->GetWorldCenter().x-1.0f,body_t->GetWorldCenter().y-4.0f),true);
+	body_t->ApplyLinearImpulse(b2Vec2(100,0),b2Vec2(body_t->GetWorldCenter().x-1.0f,body_t->GetWorldCenter().y-4.0f),true);
 }
 
 void base_sim_t::callme3(){
