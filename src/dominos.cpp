@@ -397,7 +397,7 @@ polygon.Set(vertices, count);
 	  b2PolygonShape shape_bul;
 	  shape_bul.SetAsBox(2.0f,1.0f);
       b2BodyDef bd_bul;
-      bd_bul.position.Set(9.2f, 21.5f);
+      bd_bul.position.Set(10.9f, 21.5f);
       bd_bul.type = b2_dynamicBody;
       body_bul = m_world->CreateBody(&bd_bul);
       b2FixtureDef *fd_bul = new b2FixtureDef;
@@ -410,6 +410,18 @@ polygon.Set(vertices, count);
       body_bul->SetUserData((void*)myint1);
       
       body_bul->CreateFixture(fd_bul);
+      
+      
+      
+      b2BodyDef bd_bul1;
+      bd_bul1.position.Set(10.9f, 24.5f);
+      bd_bul1.type = b2_dynamicBody;
+      b2Body* body_bul1 = m_world->CreateBody(&bd_bul1);
+      b2FixtureDef *fd_bul1 = new b2FixtureDef;
+      fd_bul1->density = 0.1f;
+      fd_bul1->shape = new b2PolygonShape;
+      fd_bul1->shape = &shape_bul;
+      body_bul1->CreateFixture(fd_bul1);
       
      
      
@@ -443,9 +455,9 @@ polygon.Set(vertices, count);
 		b2Vec2 vertices_pb3[4];
 			vertices_pb3[0].Set(0.0f, 2.0f);
 
-			vertices_pb3[1].Set(21.0f, 2.0f);
+			vertices_pb3[1].Set(18.0f, 2.0f);
 
-			vertices_pb3[2].Set(21.0f, 1.0f);
+			vertices_pb3[2].Set(18.0f, 1.0f);
 			vertices_pb3[3].Set(0.0f, 1.0f);
 		
 		
@@ -468,11 +480,12 @@ polygon.Set(vertices, count);
 		
 		// The bullet hitter
 		b2BodyDef bd_pb2;
-		bd_pb2.position.Set(14.0f,22.0f);
+		bd_pb2.position.Set(15.0f,22.0f);
 		bd_pb2.type = b2_dynamicBody;
 		body_pb2 = m_world->CreateBody(&bd_pb2);
 		b2FixtureDef *fd_pb2 = new b2FixtureDef;
 		fd_pb2->density = 0.1f;
+		fd_pb2->restitution = 0.9f;
 		fd_pb2->shape = new b2PolygonShape;
 		fd_pb2->shape = &polygon_pb3;
 		body_pb2->CreateFixture(fd_pb2);
@@ -535,43 +548,43 @@ polygon.Set(vertices, count);
 		 
 		 
 		 b2DistanceJointDef joint6; 
-		const b2Vec2 point10(25.5f, 23.5f); 
-		const b2Vec2 point11(14.5f, 23.5f); 
+		const b2Vec2 point10(28.0f, 23.5f); 
+		const b2Vec2 point11(16.5f, 23.5f); 
 		joint6.Initialize(body_pb1, body_pb2, point10, point11); 
 		joint6.collideConnected = true; 
 		joint6.frequencyHz = 0.5f; 
-		joint6.dampingRatio =1.0f;
+		joint6.dampingRatio =0.8f;
 		joint6.length = 5.0f;
 		 m_world->CreateJoint(&joint6);
 		 
 		 
 		 b2DistanceJointDef joint7; 
-		const b2Vec2 point12(25.5f, 21.5f); 
-		const b2Vec2 point13(14.5f, 23.5f); 
+		const b2Vec2 point12(28.0f, 21.5f); 
+		const b2Vec2 point13(16.5f, 23.5f); 
 		joint7.Initialize(body_pb, body_pb2, point12, point13); 
 		joint7.collideConnected = true; 
 		joint7.frequencyHz = 0.5f; 
-		joint7.dampingRatio =1.0f;
+		joint7.dampingRatio =0.8f;
 		joint7.length = 5.0f;
 		 m_world->CreateJoint(&joint7);
 		 
 		 b2DistanceJointDef joint8; 
-		const b2Vec2 point14(25.5f, 21.5f); 
+		const b2Vec2 point14(28.0f, 21.5f); 
 		const b2Vec2 point15(31.5f, 23.5f); 
 		joint8.Initialize(body_pb1, body_pb2, point14, point15); 
 		joint8.collideConnected = true; 
 		joint8.frequencyHz = 0.5f; 
-		joint8.dampingRatio =1.0f;
+		joint8.dampingRatio =0.8f;
 		joint8.length = 5.0f;
 		 m_world->CreateJoint(&joint8);
 		 
 		  b2DistanceJointDef joint9; 
-		const b2Vec2 point16(25.5f, 23.5f); 
+		const b2Vec2 point16(28.0f, 23.5f); 
 		const b2Vec2 point17(31.5f, 23.5f); 
 		joint9.Initialize(body_pb, body_pb2, point16, point17); 
 		joint9.collideConnected = true; 
 		joint9.frequencyHz = 0.5f; 
-		joint9.dampingRatio =1.0f;
+		joint9.dampingRatio =0.8f;
 		joint9.length = 5.0f;
 		 m_world->CreateJoint(&joint9);
 		 
@@ -596,13 +609,26 @@ polygon.Set(vertices, count);
       fdx->density = 0.3f;
       fdx->shape = new b2PolygonShape;
       fdx->shape = &polygon;
+      //fdx->restitution = 0.9f;
       bodyx->CreateFixture(fdx);
       //fdx->shape = &polygon1;
       //bodyx->CreateFixture(fdx);
       fdx->shape = &polygon2;
       bodyx->CreateFixture(fdx);
+      /*
+      b2BodyDef bd_ham;
+      bd_ham.position.Set(34.0f, 18.0f);
+      bd_ham.type = b2_dynamicBody;
+      b2Body* body_ham = m_world->CreateBody(&bd_ham);
+      b2FixtureDef *fd_ham = new b2FixtureDef;
+      fd_ham->density = 0.3f;
+      fd_ham->shape = new b2PolygonShape;
+      fd_ham->shape = &polygon1;
+      body_ham->CreateFixture(fd_ham);
       
-      
+      b2WeldJointDef weld_joint;
+      weld_joint.Initialize(bodyx,body_ham,b2Vec2(34.0f,15.0f));
+      m_world->CreateJoint(&weld_joint);*/
     
       
       b2PolygonShape shapenew;

@@ -46,12 +46,14 @@ namespace cs296
 						void *lo= contact->GetFixtureB()->GetBody()->GetUserData();
 					int a =*((int*)(&yo));
 					int b=*((int*)(&lo));
-						if (a==118){
+						if (a==118 && b==108){
 							temp->ApplyLinearImpulse(b2Vec2(-1000,0),temp->GetWorldCenter(),true);
-						for(int i = 0 ;i <20 ; i++){
-							temp1->ApplyForce(b2Vec2(1000,0),temp1->GetWorldCenter(),true);
-							temp2->ApplyForce(b2Vec2(1000,0),temp2->GetWorldCenter(),true);
-						}
+							temp1->ApplyLinearImpulse(b2Vec2(350,0),temp1->GetWorldCenter(),true);
+							temp2->ApplyLinearImpulse(b2Vec2(350,0),temp2->GetWorldCenter(),true);
+						/*for(int i = 0 ;i <25 ; i++){
+							temp1->ApplyForce(b2Vec2(800,0),temp1->GetWorldCenter(),true);
+							temp2->ApplyForce(b2Vec2(800,0),temp2->GetWorldCenter(),true);
+						}*/
 						std::cout<<"awesome\n";
 					//for( long i=0; i<pow(10,8); i++){}
 						}

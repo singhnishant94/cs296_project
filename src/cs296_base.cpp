@@ -256,16 +256,30 @@ void base_sim_t::callme(){
 }
 
 void base_sim_t::callme2(){
-	body_t->ApplyLinearImpulse(b2Vec2(100,0),b2Vec2(body_t->GetWorldCenter().x-1.0f,body_t->GetWorldCenter().y-4.0f),true);
+	for(int i =0 ;i<30;i++){
+	body_t->ApplyForce(b2Vec2(100,0),b2Vec2(body_t->GetWorldCenter().x-1.0f,body_t->GetWorldCenter().y-4.0f),true);
+	for( long i=0; i<pow(10,6); i++){}
+}
 }
 
 void base_sim_t::callme3(){
 	body_pb->ApplyForce(b2Vec2(-1000,0),body_pb->GetWorldCenter(),true);
 }
 void base_sim_t::callme4(){
-	body_bul->SetTransform(b2Vec2(9.0f,21.5f),0.0f);
+	body_bul->SetLinearVelocity( b2Vec2(0.0f,0.0f) );
+	body_bul->SetTransform(b2Vec2(10.9f,21.5f),0.0f);
 }
 
+void base_sim_t::callme5(){
+	for(int i =0 ;i <10;i++){
+		  callme2();
+		  for( long i=0; i<pow(10,8); i++){}
+		  callme4();
+		  for( long i=0; i<pow(10,8); i++){}
+		  for( long i=0; i<pow(10,8); i++){}
+		  
+	  }
+  }
 /*
 void base_sim_t::begin_contact(b2Contact* contact) {
   

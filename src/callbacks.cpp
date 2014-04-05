@@ -125,7 +125,8 @@ namespace cs296
       break;
       
     case 't':
-      test->callme2();
+	  test->callme2();
+	  //test->callme5();
       break;
       
     case 'e':
