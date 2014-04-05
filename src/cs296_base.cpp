@@ -52,6 +52,7 @@ base_sim_t::~base_sim_t()
 
 void base_sim_t::pre_solve(b2Contact* contact, const b2Manifold* oldManifold)
 {
+	std::cout<<"yes";
   const b2Manifold* manifold = contact->GetManifold();
   
   if (manifold->pointCount == 0)
@@ -250,6 +251,8 @@ void base_sim_t::callme(){
 	//cout <<"here\n";
 	
 	body_pb->ApplyForce(b2Vec2(3000,0), body_pb->GetWorldCenter() ,true);
+	body_pb1->ApplyForce(b2Vec2(3000,0), body_pb1->GetWorldCenter() ,true);
+	//body_pb2->ApplyForce(b2Vec2(3000,0), body_pb1->GetWorldCenter() ,true);
 }
 
 void base_sim_t::callme2(){
@@ -259,6 +262,38 @@ void base_sim_t::callme2(){
 void base_sim_t::callme3(){
 	body_pb->ApplyForce(b2Vec2(-1000,0),body_pb->GetWorldCenter(),true);
 }
+void base_sim_t::callme4(){
+	body_bul->SetTransform(b2Vec2(9.0f,21.5f),0.0f);
+}
 
+/*
+void base_sim_t::begin_contact(b2Contact* contact) {
+  
+      //check if fixture A was a ball
+      void* bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
+      if ( bodyUserData )
+        static_cast<Ball*>( bodyUserData )->startContact();
+  
+      //check if fixture B was a ball
+      bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
+      if ( bodyUserData )
+        static_cast<Ball*>( bodyUserData )->startContact();
+  
+    }
+  
+void base_sim_t::end_contact(b2Contact* contact) {
+  
+      //check if fixture A was a ball
+      void* bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
+      if ( bodyUserData )
+        static_cast<Ball*>( bodyUserData )->endContact();
+  
+      //check if fixture B was a ball
+      bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
+      if ( bodyUserData )
+        static_cast<Ball*>( bodyUserData )->endContact();
+  
+    }
+*/
 
 	

@@ -132,6 +132,10 @@ namespace cs296
       test->callme3();
       break;
       
+    case 'u':
+      test->callme4();
+      break;
+      
       //! The default case. Why is this needed?
     default:
       if (test)

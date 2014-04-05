@@ -24,14 +24,66 @@
 
 #ifndef _DOMINOS_HPP_
 #define _DOMINOS_HPP_
+//#include "cs296_base.hpp"
 
 namespace cs296
 {
+	
+	
+	
+	class MyContactListener : public b2ContactListener
+     {
+		public:
+		int i;
+		b2Body* temp;
+		b2Body* temp1;
+		b2Body* temp2;
+		void MycontactListener(b2Body* x,b2Body* y,b2Body* z){i=0;temp = x;temp1=y;temp2=z;}
+			   void BeginContact(b2Contact* contact) {
+					  
+							 //check if fixture A was a ball
+					void *yo= contact->GetFixtureA()->GetBody()->GetUserData();
+						void *lo= contact->GetFixtureB()->GetBody()->GetUserData();
+					int a =*((int*)(&yo));
+					int b=*((int*)(&lo));
+						if (a==118){
+							temp->ApplyLinearImpulse(b2Vec2(-1000,0),temp->GetWorldCenter(),true);
+						for(int i = 0 ;i <20 ; i++){
+							temp1->ApplyForce(b2Vec2(1000,0),temp1->GetWorldCenter(),true);
+							temp2->ApplyForce(b2Vec2(1000,0),temp2->GetWorldCenter(),true);
+						}
+						std::cout<<"awesome\n";
+					//for( long i=0; i<pow(10,8); i++){}
+						}
+					
+
+			   }
+		  
+			   void EndContact(b2Contact* contact) {
+		  /*
+					void *yo= contact->GetFixtureA()->GetBody()->GetUserData();
+					  void *lo= contact->GetFixtureB()->GetBody()->GetUserData();
+					int a =*((int*)(&yo));
+					int b=*((int*)(&lo));
+					  if (a==109){
+					  //for( long i=0; i<pow(10,8); i++){}
+					  std::cout<<"awesome\n";
+					 
+					  }
+					if(a==108 || b==108){
+					std::cout<<"awesomemaxx\n";
+					}*/
+				}
+     };
+	
+	
+	
   //! This is the class that sets up the Box2D simulation world
   //! Notice the public inheritance - why do we inherit the base_sim_t class?
   class dominos_t : public base_sim_t
   {
   public:
+	MyContactListener myContactListenerInstance;
     //b2Body* bodyx;
     //b2Body* temp;
     dominos_t();

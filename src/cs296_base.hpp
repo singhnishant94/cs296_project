@@ -29,11 +29,20 @@
 #include "render.hpp"
 #include <Box2D/Box2D.h>
 #include <cstdlib>
+#include <iostream>
+//#include "dominos.hpp"
 
 #define	RAND_LIMIT 32767
 
+
+
+
+
 namespace cs296
 {
+	
+	
+	
 	/**  The is the header file for cs296_base.cpp
      * This is the documentation block for the header file.
      * 
@@ -162,11 +171,16 @@ namespace cs296
     b2Body* temp;
     b2Body* bodyy;
     b2Body* body_pb;
+    b2Body* body_pb1;
+    b2Body* body_pb2;
     b2Body* attachrod;
     b2Body* body_t;
+    b2Body* body_bul;
     void callme();
     void callme2();
     void callme3();
+    void callme4();
+    //temp = body_pb2;
     //void step(settings_t*);
     
     base_sim_t();
@@ -192,8 +206,9 @@ namespace cs296
     virtual void joint_destroyed(b2Joint* joint) { B2_NOT_USED(joint); }
     
     // Callbacks for derived classes.
-    virtual void begin_contact(b2Contact* contact) { B2_NOT_USED(contact); }     //!< Called when 2 bodies undergo collision
-    virtual void end_contact(b2Contact* contact) { B2_NOT_USED(contact); }      //!< end point of collision
+    /*
+    virtual void begin_contact(b2Contact* contact) {B2_NOT_USED(contact);}     //!< Called when 2 bodies undergo collision
+    virtual void end_contact(b2Contact* contact) {B2_NOT_USED(contact);}   */   //!< end point of collision
     virtual void pre_solve(b2Contact* contact, const b2Manifold* oldManifold);
     virtual void post_solve(const b2Contact* contact, const b2ContactImpulse* impulse)
     {
@@ -227,6 +242,10 @@ namespace cs296
     b2Profile m_max_profile;
     b2Profile m_total_profile;
   };
+  
+ 
+  
+  
 }
 
 #endif
