@@ -248,24 +248,30 @@ void base_sim_t::step(settings_t* settings)
 	}
     }
     
-    
-    if(jointdestroy) {
-		jointdestroy = false;
-		if(joint_1 != NULL){
-			m_world->DestroyJoint(joint_1);
-			joint_1 = NULL;
-		}
-		if(joint_2 != NULL){
-			m_world->DestroyJoint(joint_2);
-			joint_2 = NULL;
-		}
-		std::cout<<"yes"<<endl;
+    if(reload){
+		for(int j =0 ;j<3;j++){
+			if(jointdestroy[j]) {
+				jointdestroy[j] = false;
+				if(joint_1[j] != NULL){
+					m_world->DestroyJoint(joint_1[j]);
+					joint_1[j] = NULL;
+				}
+				if(joint_2[j] != NULL){
+					m_world->DestroyJoint(joint_2[j]);
+					joint_2[j] = NULL;
+				}
+				std::cout<<"yes"<<endl;
+				body_bulhead[j]->ApplyLinearImpulse(b2Vec2(-1000,0),body_bulhead[j]->GetWorldCenter(),true);
+				body_bul[j]->ApplyLinearImpulse(b2Vec2(0,1000),body_bul[j]->GetWorldCenter(),true);
+			}
+	}
 	}
 	if(reload){
-		body_pb->ApplyForce(b2Vec2(2000,0),body_pb->GetWorldCenter(),true);
-		body_pb1->ApplyForce(b2Vec2(2000,0),body_pb1->GetWorldCenter(),true);
+		if(i%2==0){
+		body_pb->ApplyForce(b2Vec2(5000,0),body_pb->GetWorldCenter(),true);
+		body_pb1->ApplyForce(b2Vec2(5000,0),body_pb1->GetWorldCenter(),true);}
 		i++;
-		if(i>60){
+		if(i>30){
 			reload = false;
 			i = 0;
 		}

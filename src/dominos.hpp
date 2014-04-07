@@ -26,35 +26,32 @@
 #define _DOMINOS_HPP_
 namespace cs296
 {
+	    b2Body* body_bul[3];
+    b2Body* body_bulhead[3];
 	b2Body* body_pb;
     b2Body* body_pb1;
 	bool casethrow;
-	bool jointdestroy;
+	bool jointdestroy[3];
 	bool reload;
 	int i;
-	    b2RevoluteJoint* joint_1;
-    b2RevoluteJoint* joint_2;
+	    b2RevoluteJoint* joint_1[3];
+    b2RevoluteJoint* joint_2[3];
 	
 	class MyContactListener : public b2ContactListener
      {
 		public:
 		
-		b2Body* temp;
-		b2Body* casing;
+		//b2Body* temp[3];
+		//b2Body* casing[3];
 		b2Body* temp1;
 		b2Body* temp2;
-		b2RevoluteJoint* tempjoint1;
-		b2RevoluteJoint* tempjoint2;
-        b2World* m;
-		void MycontactListener(b2Body* x,b2Body* w,b2Body* y,b2Body* z,b2RevoluteJoint *joint1,b2RevoluteJoint *joint2,b2World* world)
+
+		void MycontactListener(b2Body* y,b2Body* z)
 					{
-					temp = x;
-					casing = w;
+	
 					temp1=y;
 					temp2=z;
-					tempjoint1=joint1;
-					tempjoint2=joint2;
-					m = world;
+					
 					}
 			   void BeginContact(b2Contact* contact) {
 					  
@@ -63,8 +60,10 @@ namespace cs296
 						void *lo= contact->GetFixtureB()->GetBody()->GetUserData();
 					int a =*((int*)(&yo));
 					int b=*((int*)(&lo));
-						if (a==118 && b==108){
-							temp->ApplyLinearImpulse(b2Vec2(-1000,0),temp->GetWorldCenter(),true);
+						if ((118<=a && a <121) && b==108){
+							int k= a - 118;
+							cout<<"this: "<<k<<endl;
+							
 							reload = true;
 							i = 0;
 							/*for(long i=0; i<60; i++){
@@ -74,9 +73,10 @@ namespace cs296
 							//temp2->SetTransform(b2Vec2(temp2->GetWorldCenter().x+5.0f,temp2->GetWorldCenter().y),0);
 							}*/
 							casethrow = true;
-							jointdestroy = true;
-							for( long i=0; i<pow(10,6); i++){}
-							casing->ApplyLinearImpulse(b2Vec2(10,100),casing->GetWorldCenter(),true);
+							jointdestroy[k] = true;
+							//for( long i=0; i<pow(10,6); i++){}
+							
+							
 
 						std::cout<<"awesome\n";
 					//for( long i=0; i<pow(10,8); i++){}
@@ -127,8 +127,7 @@ namespace cs296
     b2Body* body_pb2;
     b2Body* attachrod;
     b2Body* body_t;
-    b2Body* body_bul;
-    b2Body* body_bulhead;
+
     b2RevoluteJointDef jointDef_bul1;
     b2RevoluteJointDef jointDef_bul2;
 

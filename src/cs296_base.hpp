@@ -38,13 +38,15 @@
 
 namespace cs296
 {
-	extern bool jointdestroy;
+	extern bool jointdestroy[3];
 	extern bool reload;
 	extern int i;
 	extern b2Body* body_pb;
 	extern b2Body* body_pb1;
-	extern b2RevoluteJoint* joint_1;
-	extern b2RevoluteJoint* joint_2;
+	extern b2Body* body_bul[3];
+	extern b2Body* body_bulhead[3];
+	extern b2RevoluteJoint* joint_1[3];
+	extern b2RevoluteJoint* joint_2[3];
 	
 	
 	/**  The is the header file for cs296_base.cpp
