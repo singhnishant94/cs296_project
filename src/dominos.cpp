@@ -68,7 +68,7 @@ namespace cs296
     {
       
       b2EdgeShape shape; 
-      shape.Set(b2Vec2(-90.0f, 0.0f), b2Vec2(90.0f, 0.0f));
+      shape.Set(b2Vec2(-90.0f, -15.0f), b2Vec2(90.0f, -15.0f));
       b2BodyDef bd; 
       b1 = m_world->CreateBody(&bd); 
       b1->CreateFixture(&shape, 0.0f);
@@ -94,7 +94,7 @@ b2PolygonShape shape;
       shape.SetAsBox(sqrt(2.5f), 0.20f);
 
       b2BodyDef bd;
-      bd.type= b2_dynamicBody;
+      //bd.type= b2_dynamicBody;
       bd.position.Set(9.9f, 18.7f-0.125f);
       bd.angle = 140.4f* b2_pi/180.0f;
       b2Body* ground = m_world->CreateBody(&bd);
@@ -110,22 +110,36 @@ b2PolygonShape shape;
     {
       b2PolygonShape shape;
       shape.SetAsBox(3.0f, 0.25f);
-
+      
+      b2Vec2 vertices[3];
+      vertices[0].Set(2.7f,0.15f);
+      vertices[1].Set(3.7f,0.15f);
+      vertices[2].Set(2.9f,-0.35f);
+	  b2PolygonShape s;
+	  s.Set(vertices,3);
+	  
+	  
       b2BodyDef bd;
-      bd.position.Set(2.5f, 22.5f);
+      bd.position.Set(2.5f, 22.3f);
       b2Body* ground = m_world->CreateBody(&bd);
       b2FixtureDef *fd = new b2FixtureDef;
-      
+      fd->filter.categoryBits = 0x0007;
+      fd->filter.maskBits = 0x0001;
+      //fd->filter.groupIndex = -1;
       fd->shape = new b2PolygonShape;
       fd->shape = &shape;
       ground->CreateFixture(fd);
+      fd->shape = &s;
+      ground->CreateFixture(fd);
+      
+      
       
       
       b2PolygonShape shape1;
       shape1.SetAsBox(0.2f, 0.25f);
 
       b2BodyDef bd1;
-      bd1.position.Set(5.5f, 19.7f);
+      bd1.position.Set(5.8f, 19.7f);
       b2Body* ground1 = m_world->CreateBody(&bd1);
       b2FixtureDef *fd1 = new b2FixtureDef;
       
@@ -136,6 +150,38 @@ b2PolygonShape shape;
       
       
     }
+    
+    {
+		
+		      b2PolygonShape shape;
+      shape.SetAsBox(6.0f, 0.25f);
+
+      b2BodyDef bd;
+      bd.position.Set(-3.0f, 22.3f);
+      b2Body* ground = m_world->CreateBody(&bd);
+      b2FixtureDef *fd = new b2FixtureDef;
+      
+      fd->shape = new b2PolygonShape;
+      fd->shape = &shape;
+      ground->CreateFixture(fd);
+      
+  }
+  
+  {
+	
+	      b2PolygonShape shape;
+      shape.SetAsBox(3.0f, 0.25f);
+
+      b2BodyDef bd;
+      bd.position.Set(-5.9f, 19.5f);
+      b2Body* ground = m_world->CreateBody(&bd);
+      b2FixtureDef *fd = new b2FixtureDef;
+      
+      fd->shape = new b2PolygonShape;
+      fd->shape = &shape;
+      ground->CreateFixture(fd);
+      
+  }
     
 	//bullet stand
     {
@@ -182,16 +228,16 @@ b2PolygonShape shape2;
 			  b2DistanceJointDef jointDef;
 		jointDef.Initialize(body3, ground1, b1, b2);
 		jointDef.collideConnected = true;
-		//jointDef.frequencyHz = 0.5f;
-		//jointDef.dampingRatio = 0.7f;
+		jointDef.frequencyHz = 6.5f;
+		jointDef.dampingRatio = 10.0f;
 		jointDef.length = 12.0f;
 		m_world->CreateJoint(&jointDef);
 
 		b2DistanceJointDef jointDef1;
 		jointDef1.Initialize(body3, ground1, b3, b4);
 		jointDef1.collideConnected = true;
-		jointDef1.frequencyHz = 0.5f;
-		jointDef1.dampingRatio = 1.0f;
+		jointDef1.frequencyHz = 6.5f;
+		jointDef1.dampingRatio = 10.0f;
 		jointDef1.length = 12.0f;
 		m_world->CreateJoint(&jointDef1);
 
@@ -230,9 +276,12 @@ b2PolygonShape shape2;
       bd3.type = b2_dynamicBody;
       body_bul = m_world->CreateBody(&bd3);
       b2FixtureDef *fd3 = new b2FixtureDef;
-      fd3->density = 0.005f;
-      //fd3->filter.categoryBits = 0x0002;
-      //fd3->filter.maskBits = 0x0002;
+      fd3->density = 0.2f;
+      fd3->friction = 1.0f;
+      fd3->restitution = 0.000001f;
+      //fd3->filter.categoryBits = 0x0009;
+      //fd3->filter.maskBits = 0x0006 | 0x0001;
+      fd3->filter.groupIndex = -1;
       fd3->shape = new b2PolygonShape;
       fd3->shape = &shape2;
       body_bul->CreateFixture(fd3);
@@ -250,7 +299,7 @@ b2PolygonShape shape2;
       wedgefd5.shape = &poly5;
       //wedgefd5.filter.categoryBits = 0x0002;
       //wedgefd5.filter.maskBits = 0x0002;
-      wedgefd5.density = 0.005f;
+      wedgefd5.density = 0.1f;
       b2BodyDef wedgebd5;
       wedgebd5.type = b2_dynamicBody;
       wedgebd5.position.Set(10.5f, 20.5f + 6*i);
@@ -273,6 +322,70 @@ jointDef_bul2.Initialize(body_bul, body_bulhead, a2);
 
 joint_1 = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef_bul1);
 joint_2 = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef_bul2);
+
+//m_world->CreateJoint(&jointDef_bul2);
+//m_world->CreateJoint(&jointDef_bul1);
+}
+
+
+
+
+////////////////////////////////trying to make one more bullet///////////////////////////
+
+
+
+for (int i = 0; i<1 ; i++){
+// rectangle
+b2PolygonShape shape2;
+      shape2.SetAsBox(1.5f, 1.0f);
+      b2BodyDef bd3;
+// bd3.linearVelocity.Set(5,0);
+      bd3.position.Set(15.0f, 18.5f + 6*i);
+      bd3.type = b2_dynamicBody;
+      b2Body* body_bul1 = m_world->CreateBody(&bd3);
+      b2FixtureDef *fd3 = new b2FixtureDef;
+      fd3->density = 0.1f;
+      //fd3->filter.categoryBits = 0x0002;
+      //fd3->filter.maskBits = 0x0002;
+      fd3->shape = new b2PolygonShape;
+      fd3->shape = &shape2;
+      body_bul1->CreateFixture(fd3);
+      
+ //triangle
+      
+      b2PolygonShape poly5;
+      b2Vec2 vertices5[3];
+      vertices5[0].Set(0.0f,0.0f);
+      vertices5[1].Set(2.0f,0.9f);
+      vertices5[2].Set(2.0f,-0.7f);
+      poly5.Set(vertices5, 3);
+      b2FixtureDef wedgefd5;
+      wedgefd5.shape = &poly5;
+      //wedgefd5.filter.categoryBits = 0x0002;
+      //wedgefd5.filter.maskBits = 0x0002;
+      wedgefd5.density = 0.1f;
+      b2BodyDef wedgebd5;
+      wedgebd5.type = b2_dynamicBody;
+      wedgebd5.position.Set(11.5f, 18.5f + 6*i);
+      b2Body* body_bulhead1 = m_world->CreateBody(&wedgebd5);
+      body_bulhead1->CreateFixture(&wedgefd5);
+      b2Vec2 a1;
+      a1.Set(14.5f,19.5f + 6*i);
+      b2Vec2 a2;
+      a2.Set(14.5f,17.5f + 6*i);
+      
+      //joints
+      //b2RevoluteJointDef jointDef_bul1;
+// jointDef1.bodyA = body3;
+ // jointDef1.bodyB = sbody5;
+   // jointDef1.localAnchorB.Set(1,1);
+     // jointDef1.localAnchorA.Set(-2,1);
+jointDef_bul1.Initialize(body_bul1, body_bulhead1, a1);
+//b2RevoluteJointDef jointDef_bul2;
+jointDef_bul2.Initialize(body_bul1, body_bulhead1, a2);
+
+b2RevoluteJoint* joint_11 = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef_bul1);
+b2RevoluteJoint* joint_21 = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef_bul2);
 
 //m_world->CreateJoint(&jointDef_bul2);
 //m_world->CreateJoint(&jointDef_bul1);
@@ -553,6 +666,10 @@ polygon.Set(vertices, count);
       body3->CreateFixture(fd3);
       
       
+
+	  
+      
+      
       
       
      
@@ -568,6 +685,33 @@ polygon.Set(vertices, count);
       fd31->shape = new b2PolygonShape;
       fd31->shape = &shape;
       body31->CreateFixture(fd31);
+      /*
+      {
+		       b2BodyDef bd31;
+      bd31.position.Set(23.0f, 23.5f);
+      //bd3.type = b2_dynamicBody;
+      b2Body* body31 = m_world->CreateBody(&bd31);
+      b2FixtureDef *fd31 = new b2FixtureDef;
+      fd31->density = 0.1f;
+      fd31->shape = new b2PolygonShape;
+      shape.SetAsBox(0.2f,0.2f);
+      fd31->shape = &shape;
+      body31->CreateFixture(fd31);
+	  }
+	  
+	  
+	        {
+		       b2BodyDef bd31;
+      bd31.position.Set(23.0f, 20.0f);
+      //bd3.type = b2_dynamicBody;
+      b2Body* body31 = m_world->CreateBody(&bd31);
+      b2FixtureDef *fd31 = new b2FixtureDef;
+      fd31->density = 0.1f;
+      fd31->shape = new b2PolygonShape;
+      shape.SetAsBox(0.2f,0.2f);
+      fd31->shape = &shape;
+      body31->CreateFixture(fd31);
+	  }*/
       
       
        //back stopper *******************
@@ -585,6 +729,7 @@ polygon.Set(vertices, count);
       fd32->shape = new b2PolygonShape;
       fd32->shape = &shape2;
       body32->CreateFixture(fd32);
+      //body32->SetActive(false);
       
       
       /*
@@ -695,12 +840,12 @@ polygon.Set(vertices, count);
 			vertices_pb3[3].Set(0.0f, 1.0f);
 			
 		b2Vec2 vertices_pb4[4];
-			vertices_pb4[0].Set(0.0f, 1.5f);
+			vertices_pb4[0].Set(0.0f, 0.95f);
 
-			vertices_pb4[1].Set(-6.0f, 1.5f);
+			vertices_pb4[1].Set(-6.0f, 0.95f);
 
-			vertices_pb4[2].Set(-6.0f, 2.0f);
-			vertices_pb4[3].Set(0.0f, 2.0f);
+			vertices_pb4[2].Set(-6.0f, 1.25f);
+			vertices_pb4[3].Set(0.0f, 1.25f);
 		
 		
 		//b2Body* body_pb;
@@ -729,6 +874,7 @@ polygon.Set(vertices, count);
 		bd_pb2.type = b2_dynamicBody;
 		body_pb2 = m_world->CreateBody(&bd_pb2);
 		b2FixtureDef *fd_pb2 = new b2FixtureDef;
+		
 		fd_pb2->density = 0.1f;
 		fd_pb2->restitution = 0.9f;
 		fd_pb2->shape = new b2PolygonShape;
@@ -753,8 +899,8 @@ polygon.Set(vertices, count);
 		bd_pb.type = b2_dynamicBody;
 		body_pb = m_world->CreateBody(&bd_pb);
 		b2FixtureDef *fd_pb = new b2FixtureDef;
-		fd_pb->filter.categoryBits = 0x0004;
-        fd_pb->filter.maskBits = 0x0001;
+		//fd_pb->filter.categoryBits = 0x0004;
+        //fd_pb->filter.maskBits = 0x0001;
 		fd_pb->density = 0.1f;
 		fd_pb->shape = new b2PolygonShape;
 		fd_pb->shape = &polygon_pb1;
@@ -784,6 +930,9 @@ polygon.Set(vertices, count);
 		bd_pb1.type = b2_dynamicBody;
 		body_pb1 = m_world->CreateBody(&bd_pb1);
 		b2FixtureDef *fd_pb1 = new b2FixtureDef;
+		fd_pb1->filter.categoryBits = 0x0006;
+        fd_pb1->filter.maskBits = 0x0001;
+        fd_pb1->filter.groupIndex = -1;
 		fd_pb1->density = 0.1f;
 		fd_pb1->shape = new b2PolygonShape;
 		fd_pb1->shape = &polygon_pb1;
@@ -801,8 +950,8 @@ polygon.Set(vertices, count);
 		const b2Vec2 point7(22.5f, 20.0f); 
 		joint4.Initialize(body_pb, body3, point6, point7); 
 		joint4.collideConnected = true; 
-		joint4.frequencyHz = 1.0f; 
-		joint4.dampingRatio =1.0f;
+		joint4.frequencyHz = 1.1f; 
+		joint4.dampingRatio =1.5f;
 		joint4.length = 12.2f;
 		 m_world->CreateJoint(&joint4);
 		 
@@ -812,16 +961,16 @@ polygon.Set(vertices, count);
 		const b2Vec2 point9(22.5f, 23.5f); 
 		joint5.Initialize(body_pb1, body31, point8, point9); 
 		joint5.collideConnected = true; 
-		joint5.frequencyHz = 1.0f; 
-		joint5.dampingRatio =1.0f;
+		joint5.frequencyHz = 1.1f; 
+		joint5.dampingRatio =1.5f;
 		joint5.length = 12.2f;
 		 m_world->CreateJoint(&joint5);
 		 
 		 
 		 
 		 b2DistanceJointDef joint6; 
-		const b2Vec2 point10(23.0f, 23.5f); 
-		const b2Vec2 point11(15.5f, 23.2f); 
+		const b2Vec2 point10(24.0f, 23.5f); 
+		const b2Vec2 point11(16.5f, 23.2f); 
 		joint6.Initialize(body_pb1, body_pb2, point10, point11); 
 		joint6.collideConnected = true; 
 		joint6.frequencyHz = 0.5f; 
@@ -831,8 +980,8 @@ polygon.Set(vertices, count);
 		 
 		 
 		 b2DistanceJointDef joint7; 
-		const b2Vec2 point12(23.0f, 21.5f); 
-		const b2Vec2 point13(15.5f, 23.2f); 
+		const b2Vec2 point12(24.0f, 21.5f); 
+		const b2Vec2 point13(16.5f, 23.2f); 
 		joint7.Initialize(body_pb, body_pb2, point12, point13); 
 		joint7.collideConnected = true; 
 		joint7.frequencyHz = 0.5f; 
@@ -841,7 +990,7 @@ polygon.Set(vertices, count);
 		 m_world->CreateJoint(&joint7);
 		 
 		 b2DistanceJointDef joint8; 
-		const b2Vec2 point14(23.0f, 21.5f); 
+		const b2Vec2 point14(24.0f, 21.5f); 
 		const b2Vec2 point15(31.5f, 23.2f); 
 		joint8.Initialize(body_pb1, body_pb2, point14, point15); 
 		joint8.collideConnected = true; 
@@ -851,7 +1000,7 @@ polygon.Set(vertices, count);
 		 m_world->CreateJoint(&joint8);
 		 
 		  b2DistanceJointDef joint9; 
-		const b2Vec2 point16(23.0f, 23.5f); 
+		const b2Vec2 point16(24.0f, 23.5f); 
 		const b2Vec2 point17(31.5f, 23.2f); 
 		joint9.Initialize(body_pb, body_pb2, point16, point17); 
 		joint9.collideConnected = true; 

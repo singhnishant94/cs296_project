@@ -39,6 +39,10 @@
 namespace cs296
 {
 	extern bool jointdestroy;
+	extern bool reload;
+	extern int i;
+	extern b2Body* body_pb;
+	extern b2Body* body_pb1;
 	extern b2RevoluteJoint* joint_1;
 	extern b2RevoluteJoint* joint_2;
 	

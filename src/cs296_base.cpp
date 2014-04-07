@@ -261,5 +261,14 @@ void base_sim_t::step(settings_t* settings)
 		}
 		std::cout<<"yes"<<endl;
 	}
+	if(reload){
+		body_pb->ApplyForce(b2Vec2(2000,0),body_pb->GetWorldCenter(),true);
+		body_pb1->ApplyForce(b2Vec2(2000,0),body_pb1->GetWorldCenter(),true);
+		i++;
+		if(i>60){
+			reload = false;
+			i = 0;
+		}
+	}
     
 }
