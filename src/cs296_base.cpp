@@ -248,10 +248,11 @@ void base_sim_t::step(settings_t* settings)
 }
 
 void base_sim_t::callme(){
-	//cout <<"here\n";
+	cout <<body_pb2->GetWorldCenter().y<<endl;
 	
 	body_pb->ApplyForce(b2Vec2(3000,0), body_pb->GetWorldCenter() ,true);
 	body_pb1->ApplyForce(b2Vec2(3000,0), body_pb1->GetWorldCenter() ,true);
+	
 	//body_pb2->ApplyForce(b2Vec2(3000,0), body_pb1->GetWorldCenter() ,true);
 }
 
