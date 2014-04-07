@@ -24,21 +24,34 @@
 
 #ifndef _DOMINOS_HPP_
 #define _DOMINOS_HPP_
-//#include "cs296_base.hpp"
-
 namespace cs296
 {
-	
-	
+	bool casethrow;
+	bool jointdestroy;
+	    b2RevoluteJoint* joint_1;
+    b2RevoluteJoint* joint_2;
 	
 	class MyContactListener : public b2ContactListener
      {
 		public:
 		int i;
 		b2Body* temp;
+		b2Body* casing;
 		b2Body* temp1;
 		b2Body* temp2;
-		void MycontactListener(b2Body* x,b2Body* y,b2Body* z){i=0;temp = x;temp1=y;temp2=z;}
+		b2RevoluteJoint* tempjoint1;
+		b2RevoluteJoint* tempjoint2;
+        b2World* m;
+		void MycontactListener(b2Body* x,b2Body* w,b2Body* y,b2Body* z,b2RevoluteJoint *joint1,b2RevoluteJoint *joint2,b2World* world)
+					{i=0;
+					temp = x;
+					casing = w;
+					temp1=y;
+					temp2=z;
+					tempjoint1=joint1;
+					tempjoint2=joint2;
+					m = world;
+					}
 			   void BeginContact(b2Contact* contact) {
 					  
 							 //check if fixture A was a ball
@@ -48,14 +61,33 @@ namespace cs296
 					int b=*((int*)(&lo));
 						if (a==118 && b==108){
 							temp->ApplyLinearImpulse(b2Vec2(-1000,0),temp->GetWorldCenter(),true);
-							temp1->ApplyLinearImpulse(b2Vec2(350,0),temp1->GetWorldCenter(),true);
-							temp2->ApplyLinearImpulse(b2Vec2(350,0),temp2->GetWorldCenter(),true);
+							for(long i=0; i<60; i++){
+								//for( long i=0; i<pow(10,6); i++){}
+							temp1->ApplyForce(b2Vec2(2000,0),temp1->GetWorldCenter(),true);
+							temp2->ApplyForce(b2Vec2(2000,0),temp2->GetWorldCenter(),true);
+							}
+							for( long i=0; i<pow(10,6); i++){}
+							//casing->ApplyLinearImpulse(b2Vec2(550,0),casing->GetWorldCenter(),true);
+							casethrow = true;
+							jointdestroy = true;
+							//m->DestroyJoint(tempjoint1);
+							//tempjoint1 = NULL;
+							//m->DestroyJoint(tempjoint2);
+							//tempjoint2 = NULL;
 						/*for(int i = 0 ;i <25 ; i++){
 							temp1->ApplyForce(b2Vec2(800,0),temp1->GetWorldCenter(),true);
 							temp2->ApplyForce(b2Vec2(800,0),temp2->GetWorldCenter(),true);
 						}*/
 						std::cout<<"awesome\n";
 					//for( long i=0; i<pow(10,8); i++){}
+						}
+						if(a==138){
+							//cout<<"i m in"<<endl;
+							if(casethrow){
+								cout<<"i m in"<<endl;
+								casing->ApplyLinearImpulse(b2Vec2(0,50),casing->GetWorldCenter(),true);
+								casethrow =false;
+							}
 						}
 					
 
@@ -88,6 +120,20 @@ namespace cs296
 	MyContactListener myContactListenerInstance;
     //b2Body* bodyx;
     //b2Body* temp;
+    b2Body* bodyx;
+    b2Body* temp;
+    b2Body* bodyy;
+    b2Body* body_pb;
+    b2Body* body_pb1;
+    b2Body* body_pb2;
+    b2Body* attachrod;
+    b2Body* body_t;
+    b2Body* body_bul;
+    b2Body* body_bulhead;
+    b2RevoluteJointDef jointDef_bul1;
+    b2RevoluteJointDef jointDef_bul2;
+
+    void keyboard(unsigned char key);
     dominos_t();
     
     

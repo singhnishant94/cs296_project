@@ -88,6 +88,8 @@ void base_sim_t::draw_title(int x, int y, const char *string)
 
 void base_sim_t::step(settings_t* settings)
 {
+	
+	
   float32 time_step = settings->hz > 0.0f ? 1.0f / settings->hz : float32(0.0f);
 
   if (settings->pause)
@@ -245,70 +247,19 @@ void base_sim_t::step(settings_t* settings)
 	    }
 	}
     }
+    
+    
+    if(jointdestroy) {
+		jointdestroy = false;
+		if(joint_1 != NULL){
+			m_world->DestroyJoint(joint_1);
+			joint_1 = NULL;
+		}
+		if(joint_2 != NULL){
+			m_world->DestroyJoint(joint_2);
+			joint_2 = NULL;
+		}
+		std::cout<<"yes"<<endl;
+	}
+    
 }
-
-void base_sim_t::callme(){
-	cout <<body_pb2->GetWorldCenter().y<<endl;
-	
-	body_pb->ApplyForce(b2Vec2(3000,0), body_pb->GetWorldCenter() ,true);
-	body_pb1->ApplyForce(b2Vec2(3000,0), body_pb1->GetWorldCenter() ,true);
-	
-	//body_pb2->ApplyForce(b2Vec2(3000,0), body_pb1->GetWorldCenter() ,true);
-}
-
-void base_sim_t::callme2(){
-	for(int i =0 ;i<30;i++){
-	body_t->ApplyForce(b2Vec2(100,0),b2Vec2(body_t->GetWorldCenter().x-1.0f,body_t->GetWorldCenter().y-4.0f),true);
-	for( long i=0; i<pow(10,6); i++){}
-}
-}
-
-void base_sim_t::callme3(){
-	body_pb->ApplyForce(b2Vec2(-1000,0),body_pb->GetWorldCenter(),true);
-}
-void base_sim_t::callme4(){
-	body_bul->SetLinearVelocity( b2Vec2(0.0f,0.0f) );
-	body_bul->SetTransform(b2Vec2(10.9f,21.5f),0.0f);
-}
-
-void base_sim_t::callme5(){
-	for(int i =0 ;i <10;i++){
-		  callme2();
-		  for( long i=0; i<pow(10,8); i++){}
-		  callme4();
-		  for( long i=0; i<pow(10,8); i++){}
-		  for( long i=0; i<pow(10,8); i++){}
-		  
-	  }
-  }
-/*
-void base_sim_t::begin_contact(b2Contact* contact) {
-  
-      //check if fixture A was a ball
-      void* bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
-      if ( bodyUserData )
-        static_cast<Ball*>( bodyUserData )->startContact();
-  
-      //check if fixture B was a ball
-      bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
-      if ( bodyUserData )
-        static_cast<Ball*>( bodyUserData )->startContact();
-  
-    }
-  
-void base_sim_t::end_contact(b2Contact* contact) {
-  
-      //check if fixture A was a ball
-      void* bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
-      if ( bodyUserData )
-        static_cast<Ball*>( bodyUserData )->endContact();
-  
-      //check if fixture B was a ball
-      bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
-      if ( bodyUserData )
-        static_cast<Ball*>( bodyUserData )->endContact();
-  
-    }
-*/
-
-	

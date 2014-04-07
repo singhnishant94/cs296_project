@@ -30,17 +30,17 @@
 #include <Box2D/Box2D.h>
 #include <cstdlib>
 #include <iostream>
-//#include "dominos.hpp"
 
 #define	RAND_LIMIT 32767
 
 
 
 
-
 namespace cs296
 {
-	
+	extern bool jointdestroy;
+	extern b2RevoluteJoint* joint_1;
+	extern b2RevoluteJoint* joint_2;
 	
 	
 	/**  The is the header file for cs296_base.cpp
@@ -167,20 +167,7 @@ namespace cs296
 	   * It stores all the information about the contacts before the solving time, and it can display the contact points.<br> 
 	   */
   public:
-    b2Body* bodyx;
-    b2Body* temp;
-    b2Body* bodyy;
-    b2Body* body_pb;
-    b2Body* body_pb1;
-    b2Body* body_pb2;
-    b2Body* attachrod;
-    b2Body* body_t;
-    b2Body* body_bul;
-    void callme();
-    void callme2();
-    void callme3();
-    void callme4();
-    void callme5();
+
     //temp = body_pb2;
     //void step(settings_t*);
     
