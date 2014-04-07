@@ -262,7 +262,7 @@ void base_sim_t::step(settings_t* settings)
 				}
 				std::cout<<"yes"<<endl;
 				body_bulhead[j]->ApplyLinearImpulse(b2Vec2(-1000,0),body_bulhead[j]->GetWorldCenter(),true);
-				body_bul[j]->ApplyLinearImpulse(b2Vec2(0,1000),body_bul[j]->GetWorldCenter(),true);
+				body_bul[j]->ApplyLinearImpulse(b2Vec2(2,1000),body_bul[j]->GetWorldCenter(),true);
 			}
 	}
 	}
