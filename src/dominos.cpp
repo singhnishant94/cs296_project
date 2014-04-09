@@ -78,7 +78,7 @@ namespace cs296
       
      ///////////////////////Varun 's part /////////////////////////////
      // lower rod
-{
+	{
       b2PolygonShape shape;
       shape.SetAsBox(6.0f, 0.25f);
 
@@ -90,8 +90,8 @@ namespace cs296
      
          // diagonal rod
     {
-b2PolygonShape shape;
-      shape.SetAsBox(sqrt(2.8f), 0.20f);
+      b2PolygonShape shape;
+	  shape.SetAsBox(sqrt(2.8f), 0.20f);
 
       b2BodyDef bd;
       //bd.type= b2_dynamicBody;
@@ -151,9 +151,11 @@ b2PolygonShape shape;
       
     }
     
+    
+    //Extensions to the barrel's upper and lower rods
     {
 		
-		      b2PolygonShape shape;
+	  b2PolygonShape shape;
       shape.SetAsBox(6.0f, 0.25f);
 
       b2BodyDef bd;
@@ -183,9 +185,9 @@ b2PolygonShape shape;
       
   }
     
-	//bullet stand
+	//bullet magazine
     {
-b2PolygonShape shape2;
+	  b2PolygonShape shape2;
       shape2.SetAsBox(2.5f, 0.25f);
       b2BodyDef bd3;
       bd3.position.Set(14.0f, 12.5f);
@@ -202,7 +204,7 @@ b2PolygonShape shape2;
 		jointDef2.Initialize(body3	, b1, body3->GetWorldCenter(), worldAxis);
 		m_world->CreateJoint(&jointDef2);
 
-    //barell bottom
+    //base
     
       b2PolygonShape shape;
       shape.SetAsBox(3.0f, 0.25f);
@@ -220,12 +222,8 @@ b2PolygonShape shape2;
       b2Vec2 b4;
       b4.Set(15.0f,5.5f);
       
-		/* float k = 5;
-		float y1 = ground1->GetWorldCenter().y;
-		float y2 = body3->GetWorldCenter().y;
-		body3 -> ApplyForce(b2Vec2(0,k*(y2-y1-4)) , body3->GetWorldCenter(),1); */
-				 
-			  b2DistanceJointDef jointDef;
+	 ///// These distance joints function as spring in the bullet magazine/////////// 
+		b2DistanceJointDef jointDef;
 		jointDef.Initialize(body3, ground1, b1, b2);
 		jointDef.collideConnected = true;
 		jointDef.frequencyHz = 6.5f;
@@ -244,7 +242,7 @@ b2PolygonShape shape2;
     }
 
 
-	//barell left
+	//left boundary
     {
       b2PolygonShape shape;
       shape.SetAsBox(0.25f, 10.0f);
@@ -254,7 +252,7 @@ b2PolygonShape shape2;
       b2Body* ground = m_world->CreateBody(&bd);
       ground->CreateFixture(&shape, 0.0f);
     }
-    //barell right
+    //right boundary
     {
       b2PolygonShape shape;
       shape.SetAsBox(0.25f,10.5f);
@@ -266,12 +264,11 @@ b2PolygonShape shape2;
     }
     
     
-for (int i = 0; i<3 ; i++){
-// rectangle
-b2PolygonShape shape2;
+	for (int i = 0; i<3 ; i++){
+		// The shell of the bullet////
+	  b2PolygonShape shape2;
       shape2.SetAsBox(1.5f, 1.0f);
       b2BodyDef bd3;
-// bd3.linearVelocity.Set(5,0);
       bd3.position.Set(14.5f, 17.5f - 2*i);
       bd3.type = b2_dynamicBody;
       body_bul[i] = m_world->CreateBody(&bd3);
@@ -287,7 +284,8 @@ b2PolygonShape shape2;
       body_bul[i]->CreateFixture(fd3);
       int myint1 = 118+i;
       body_bul[i]->SetUserData((void*)myint1);
- //triangle
+      
+		//triangle which makes the actual flying part of the bullet////
       
       b2PolygonShape poly5;
       b2Vec2 vertices5[3];
@@ -310,29 +308,23 @@ b2PolygonShape shape2;
       b2Vec2 a2;
       a2.Set(14.0f,16.5f - 2*i);
       
-      //joints
-      //b2RevoluteJointDef jointDef_bul1;
-// jointDef1.bodyA = body3;
- // jointDef1.bodyB = sbody5;
-   // jointDef1.localAnchorB.Set(1,1);
-     // jointDef1.localAnchorA.Set(-2,1);
-jointDef_bul1.Initialize(body_bul[i], body_bulhead[i], a1);
-//b2RevoluteJointDef jointDef_bul2;
-jointDef_bul2.Initialize(body_bul[i], body_bulhead[i], a2);
+	  jointDef_bul1.Initialize(body_bul[i], body_bulhead[i], a1);
+	  jointDef_bul2.Initialize(body_bul[i], body_bulhead[i], a2);
 
-joint_1[i] = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef_bul1);
-joint_2[i] = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef_bul2);
 
-//m_world->CreateJoint(&jointDef_bul2);
-//m_world->CreateJoint(&jointDef_bul1);
+	  //joint_1 and joint_2 are b2RevoluteJoint* type variables. Creating these 
+	  //facilitates their destruction later when bullet is fired. //
+	  joint_1[i] = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef_bul1); 
+	  joint_2[i] = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef_bul2);
+
 }
 
 
 
-      
+       //The stopper for the hammer i.e. which holds the hammer back till the user presses trigger ****************
       
       {
-		  //The stopper in the trigger ****************
+		 
 		
 		
 		b2Vec2 vertices_pb[4];
@@ -386,8 +378,8 @@ joint_2[i] = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef_bul2);
 		int myint_bodyy=128;
 		bodyy->SetUserData((void*)myint_bodyy);
 		
-		
-		b2BodyDef bdx3;
+		// This part functions as the spring which keeps the trigger tight.
+	  b2BodyDef bdx3;
       bdx3.position.Set(30.5f, 13.5f);
       b2Body* bodyx3 = m_world->CreateBody(&bdx3);
 	  b2RevoluteJointDef jointDef3xy;
@@ -424,7 +416,7 @@ joint_2[i] = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef_bul2);
       
       m_world->CreateJoint(&jointDefrod);
       
-      //the notch////////////////////
+      //the small object just below the attaching rod///
       b2PolygonShape shapenew;
       shapenew.SetAsBox(0.2f, 0.2f);
       b2BodyDef bdnew;
@@ -447,7 +439,7 @@ joint_2[i] = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef_bul2);
       
       
       
-      //////////////// The Trigger /////////////////////////
+      ///////// The Trigger i.e the part which is available to the user to press/////////
       
       
       {
@@ -524,7 +516,7 @@ joint_2[i] = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef_bul2);
       
       
       
-      //The revolving horizontal platform
+      //The trigger mechanism
     {
 		
 			 b2Vec2 vertices[4];
@@ -562,21 +554,21 @@ joint_2[i] = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef_bul2);
 			int count2 = 3;
  
 
-b2PolygonShape polygon;
-b2PolygonShape polygon1;
-b2PolygonShape polygon2;
-b2PolygonShape polygon3;
-b2PolygonShape polygon4;
-b2PolygonShape polygon5;
+			b2PolygonShape polygon;
+			b2PolygonShape polygon1;
+			b2PolygonShape polygon2;
+			b2PolygonShape polygon3;
+			b2PolygonShape polygon4;
+			b2PolygonShape polygon5;
 
 
 
-polygon4.SetAsBox(6.0f,0.5f);
-polygon3.Set(vertices3, count2);
-polygon2.Set(vertices2,count2);
-polygon1.Set(vertices1,count);
-polygon.Set(vertices, count);
-//polygon5.Set(vertices5, count);
+			polygon4.SetAsBox(6.0f,0.5f);
+			polygon3.Set(vertices3, count2);
+			polygon2.Set(vertices2,count2);
+			polygon1.Set(vertices1,count);
+			polygon.Set(vertices, count);
+
 
 
 	// The hitter
@@ -620,7 +612,7 @@ polygon.Set(vertices, count);
   
       
       
-       //back stopper *******************
+       //back stopper (stops the pullback mecahnism from breaking away*******************
       b2PolygonShape shape2;
       shape2.SetAsBox(0.2f, 5.0f);
       
@@ -702,7 +694,7 @@ polygon.Set(vertices, count);
 		
 		
 		
-		// The bullet hitter
+		// The bullet hitting pin
 		b2BodyDef bd_pb2;
 		bd_pb2.position.Set(15.5f,21.73f);
 		bd_pb2.type = b2_dynamicBody;
@@ -715,19 +707,12 @@ polygon.Set(vertices, count);
 		fd_pb2->shape = &polygon_pb3;
 		body_pb2->CreateFixture(fd_pb2);
 		
-			int myint=108;
+		int myint=108;
 		body_pb2->SetUserData((void*)myint);
-		/*
-		b2PrismaticJointDef jointDef_pb2;
-		b2Vec2 worldAxis(1.0f, 0.0f);
-		jointDef_pb2.Initialize(body_pb2, b1, b2Vec2(body_pb2->GetWorldCenter().x,body_pb2->GetWorldCenter().y-2.0f), worldAxis);
-		m_world->CreateJoint(&jointDef_pb2);
-		*/
-		
-		//body_pb2->SetUserData( this );
+
 		
 		
-		
+		// The lower rod in the pullback mechanism
 		b2BodyDef bd_pb;
 		bd_pb.position.Set(13.5f,20.0f);
 		bd_pb.type = b2_dynamicBody;
@@ -745,21 +730,11 @@ polygon.Set(vertices, count);
 		body_pb->CreateFixture(fd_pb);
 		int myint_body_pb=138;
 		body_pb->SetUserData((void*)myint_body_pb);
-		/*b2PrismaticJointDef jointDef_pb;
-		b2Vec2 worldAxis(1.0f, 0.0f);
-		jointDef_pb.Initialize(body_pb	, b1, b2Vec2(body_pb->GetWorldCenter().x,body_pb->GetWorldCenter().y-1.0f), worldAxis);
-		m_world->CreateJoint(&jointDef_pb);
-		*/
-		
-		
-		
-		
-		
 		
 		
 		
 
-		
+		// The upper rod in the pullback mechanism
 		b2BodyDef bd_pb1;
 		bd_pb1.position.Set(13.5f,22.0f);
 		bd_pb1.type = b2_dynamicBody;
@@ -791,8 +766,8 @@ polygon.Set(vertices, count);
 		
 		
 		
-		
-		 b2DistanceJointDef joint4; 
+		// These distance joints act as springs to keep the pullback mechanism go forward if force on it becomes zero.
+		b2DistanceJointDef joint4; 
 		const b2Vec2 point6(13.5f, 20.5f); 
 		const b2Vec2 point7(22.5f, 20.0f); 
 		joint4.Initialize(body_pb, body3, point6, point7); 
@@ -814,7 +789,8 @@ polygon.Set(vertices, count);
 		 m_world->CreateJoint(&joint5);
 		 
 		 
-		 
+		 // These four joints ie. joint6 -joint 9 keep the hitting pin attached to the pullback mechanism's upper 
+		 // and lower rods.
 		 b2DistanceJointDef joint6; 
 		const b2Vec2 point10(24.0f, 23.5f); 
 		const b2Vec2 point11(16.5f, 23.2f); 
@@ -858,7 +834,8 @@ polygon.Set(vertices, count);
 		 
 		 
 		 
-		 
+		 //These three prismatic joints forbids the motion of the pullback
+		 // mechanism in vertical axis.
 		 
 		 b2PrismaticJointDef jointDef_pb;
 		//b2Vec2 worldAxis(1.0f, 0.0f);
@@ -893,7 +870,7 @@ polygon.Set(vertices, count);
 		 
 		 
 		 
-		 
+	  // The hammer which hits the hitting pin once the trigger is pressed.
 	  b2BodyDef bdx;
       bdx.position.Set(34.0f, 20.0f);
       bdx.type = b2_dynamicBody;
@@ -910,7 +887,7 @@ polygon.Set(vertices, count);
       bodyx->CreateFixture(fdx);
 
     
-      
+      // Small object which prevents the trigger stopper to go beyond certain distance.
       b2PolygonShape shapenew;
       shapenew.SetAsBox(0.2f, 0.2f);
       b2BodyDef bdnew;
@@ -923,9 +900,9 @@ polygon.Set(vertices, count);
       bodynew->CreateFixture(fdnew);
 		
 		
-      //The hitter rotator ***********************
-      //b2PolygonShape shape2;
-      //shape2.SetAsBox(0.2f, 2.0f);
+      //This is the part which defines where the hammer will be attached and the power 
+      // with which it will strike at the hitting pin. Instead of spring motor has been
+      // used to deliver the torque to the hammer.
       b2BodyDef bd2;
       bd2.position.Set(34.0f, 16.0f);
       b2Body* body2 = m_world->CreateBody(&bd2);
@@ -944,7 +921,7 @@ polygon.Set(vertices, count);
 		
       }
       
-      /////// The handle ////////////////
+      /////// The handle which the user holds while pressing the trigger////////////////
       {
 		  b2Vec2 vertices[4];
 			vertices[0].Set(0.0f, 0.0f);
@@ -968,7 +945,7 @@ polygon.Set(vertices, count);
 		  
 	  }
 	  
-	  /////////////// The bricks ///////////////
+	  /////////////// The bricks (just to make the simulation more interesting)///////////////
 	  {
 		  b2PolygonShape shape;
 				shape.SetAsBox(20.0f,2.0f);
@@ -985,24 +962,23 @@ polygon.Set(vertices, count);
 		  for(int i = 0;i<10;i++){
 			  for(int j =0 ;j <5;j++){
 				  b2PolygonShape shape;
-				shape.SetAsBox(1.0f,1.0f);
-				b2BodyDef bd;
-			  bd.position.Set(-30.0f+2.4*j, 12.0f+2.4*i);
-			  bd.type = b2_dynamicBody;
-			   body[5*i+j]= m_world->CreateBody(&bd);
-			  b2FixtureDef *fd = new b2FixtureDef;
-			  
-			  fd->density = 0.001f;
-			  fd->shape = new b2PolygonShape;
-			  fd->shape = &shape;
-			  body[5*i+j]->CreateFixture(fd);
-		  }
-	  }
+				  shape.SetAsBox(1.0f,1.0f);
+				  b2BodyDef bd;
+				  bd.position.Set(-30.0f+2.4*j, 12.0f+2.4*i);
+				  bd.type = b2_dynamicBody;
+				  body[5*i+j]= m_world->CreateBody(&bd);
+				  b2FixtureDef *fd = new b2FixtureDef;
+				  
+				  fd->density = 0.001f;
+				  fd->shape = new b2PolygonShape;
+				  fd->shape = &shape;
+				  body[5*i+j]->CreateFixture(fd);
+				}
+			}
 	  
-			  }
+		}
       
-      
-      //myContactListenerInstance = new MyContactListener(body_pb2);
+      // calling the similar-to-constructor function for personalized contact listener instance.//
       myContactListenerInstance.MycontactListener(body_pb,body_pb1);
 	  m_world->SetContactListener(&myContactListenerInstance);
      
@@ -1010,13 +986,15 @@ polygon.Set(vertices, count);
      
 
   }
+  // Defining the keyboard events//
   
+  // 'q' loads the gun
+  // 't' fires the bullet
   void dominos_t::keyboard(unsigned char key)
     {
         switch (key)
 		{
 		case 'q':
-			cout <<body_pb2->GetWorldCenter().y<<endl;
 			body_pb->ApplyForce(b2Vec2(4000,0), body_pb->GetWorldCenter() ,true);
 			body_pb1->ApplyForce(b2Vec2(4000,0), body_pb1->GetWorldCenter() ,true);
 		break;

@@ -38,15 +38,19 @@
 
 namespace cs296
 {
+	extern bool automatic;
 	extern bool jointdestroy[3];
 	extern bool reload;
 	extern int i;
 	extern b2Body* body_pb;
 	extern b2Body* body_pb1;
+	extern b2Body* body_t;
 	extern b2Body* body_bul[3];
 	extern b2Body* body_bulhead[3];
 	extern b2RevoluteJoint* joint_1[3];
 	extern b2RevoluteJoint* joint_2[3];
+	extern int noofsteps;
+	extern b2Body* curbul;
 	
 	
 	/**  The is the header file for cs296_base.cpp
@@ -208,6 +212,9 @@ namespace cs296
     {
       B2_NOT_USED(contact);
       B2_NOT_USED(impulse);
+    }
+    b2World* get_world(void){
+   return m_world;
     }
 
   //!How are protected members different from private memebers of a class in C++ ?

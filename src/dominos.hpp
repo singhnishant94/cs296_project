@@ -25,24 +25,29 @@
 #ifndef _DOMINOS_HPP_
 #define _DOMINOS_HPP_
 namespace cs296
-{
-	    b2Body* body_bul[3];
-    b2Body* body_bulhead[3];
-	b2Body* body_pb;
-    b2Body* body_pb1;
-	bool casethrow;
-	bool jointdestroy[3];
-	bool reload;
-	int i;
-	    b2RevoluteJoint* joint_1[3];
-    b2RevoluteJoint* joint_2[3];
+{	
+	// These variables are needed in the step function so they had to be defined in this namespace.
+	b2Body* body_bul[3];          // the shell of the bullet
+    b2Body* body_bulhead[3];      // the triangle head of the bullet 
+    b2Body* body_t;               // The trigger
+	b2Body* body_pb;              // the pullback
+    b2Body* body_pb1;             // the pullback
+	bool casethrow;               // boolean to decide when to throw the shell 
+	bool jointdestroy[3];		  // boolean to decide which joint to destroy
+	bool reload;                  // boolean to decide when to reload
+	int i;						  // this variable has been used in deciding how many times the loop will be run in
+								  // step function to load the gun.
+	b2RevoluteJoint* joint_1[3];  // first joint between bullet head and the shell
+    b2RevoluteJoint* joint_2[3];  // second joint between bullet head and the shell
+    
+    bool automatic;
+    int noofsteps=0;
+    b2Body* curbul;
 	
 	class MyContactListener : public b2ContactListener
      {
 		public:
 		
-		//b2Body* temp[3];
-		//b2Body* casing[3];
 		b2Body* temp1;
 		b2Body* temp2;
 
@@ -55,37 +60,22 @@ namespace cs296
 					}
 			   void BeginContact(b2Contact* contact) {
 					  
-							 //check if fixture A was a ball
-					void *yo= contact->GetFixtureA()->GetBody()->GetUserData();
-						void *lo= contact->GetFixtureB()->GetBody()->GetUserData();
-					int a =*((int*)(&yo));
-					int b=*((int*)(&lo));
+					void *bA= contact->GetFixtureA()->GetBody()->GetUserData();
+					void *bB= contact->GetFixtureB()->GetBody()->GetUserData();
+					int a =*((int*)(&bA));
+					int b =*((int*)(&bB));
+					// check if first body is one of the three bullets and second the hitting pin.
 						if ((118<=a && a <121) && b==108){
-							int k= a - 118;
-							cout<<"this: "<<k<<endl;
+							int k = a - 118;    // deciding which bullet
 							
 							reload = true;
 							i = 0;
-							/*for(long i=0; i<60; i++){
-								//for( long i=0; i<pow(10,6); i++){}
-							temp1->ApplyForce(b2Vec2(2000,0),temp1->GetWorldCenter(),true);
-							temp2->ApplyForce(b2Vec2(2000,0),temp2->GetWorldCenter(),true);
-							//temp2->SetTransform(b2Vec2(temp2->GetWorldCenter().x+5.0f,temp2->GetWorldCenter().y),0);
-							}*/
+							
 							casethrow = true;
 							jointdestroy[k] = true;
-							//for( long i=0; i<pow(10,6); i++){}
-							
-							
-
-						std::cout<<"awesome\n";
-					//for( long i=0; i<pow(10,8); i++){}
 						}
-						if(a==138){
-							//cout<<"i m in"<<endl;
+						if(a==138){         // The pullback hits the hammer while going back during loading.
 							if(casethrow){
-								cout<<"i m in"<<endl;
-								//casing->ApplyLinearImpulse(b2Vec2(10,100),casing->GetWorldCenter(),true);
 								casethrow =false;
 							}
 						}
@@ -94,19 +84,7 @@ namespace cs296
 			   }
 		  
 			   void EndContact(b2Contact* contact) {
-		  /*
-					void *yo= contact->GetFixtureA()->GetBody()->GetUserData();
-					  void *lo= contact->GetFixtureB()->GetBody()->GetUserData();
-					int a =*((int*)(&yo));
-					int b=*((int*)(&lo));
-					  if (a==109){
-					  //for( long i=0; i<pow(10,8); i++){}
-					  std::cout<<"awesome\n";
-					 
-					  }
-					if(a==108 || b==108){
-					std::cout<<"awesomemaxx\n";
-					}*/
+		
 				}
      };
 	
@@ -118,18 +96,16 @@ namespace cs296
   {
   public:
 	MyContactListener myContactListenerInstance;
-    //b2Body* bodyx;
-    //b2Body* temp;
-    b2Body* bodyx;
-    b2Body* temp;
-    b2Body* bodyy;
+    b2Body* bodyx;                       // The hammer
+    b2Body* temp;                      
+    b2Body* bodyy;                      
 
-    b2Body* body_pb2;
-    b2Body* attachrod;
-    b2Body* body_t;
+    b2Body* body_pb2;                    // The hitting pin
+    b2Body* attachrod;				     // The rod which attaches trigger to the stopper
+    
 
-    b2RevoluteJointDef jointDef_bul1;
-    b2RevoluteJointDef jointDef_bul2;
+    b2RevoluteJointDef jointDef_bul1;    // First joint between bullet head and the shell
+    b2RevoluteJointDef jointDef_bul2;    // Second joint between bullet head and the shell
 
     void keyboard(unsigned char key);
     dominos_t();
@@ -140,8 +116,6 @@ namespace cs296
     {
       return new dominos_t;
     }
-    //void callme();
-    //void step(settings_t*);
   };
 }
   

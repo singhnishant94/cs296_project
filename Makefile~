@@ -17,9 +17,9 @@ GL_ROOT=/usr/include/
 LIBS = -lBox2D -lglui -lglut -lGLU -lGL
 
 #Compiler and linker flags
-CPPFLAGS =-g -O3 -Wall -fno-strict-aliasing
+CPPFLAGS =-g -O3 -Wall -fno-strict-aliasing -p
 CPPFLAGS+=-I $(BOX2D_ROOT)/include -I $(GLUI_ROOT)/include#729fcf
-LDFLAGS+=-L $(BOX2D_ROOT)/lib -L $(GLUI_ROOT)/lib
+LDFLAGS+=-L $(BOX2D_ROOT)/lib -L $(GLUI_ROOT)/lib -p
 LDFLAGS_N=$(LDFLAGS) -L $(PROJECT_ROOT)/mylibs -Wl,-R$(PROJECT_ROOT)/mylibs
 
 OK="[OK]"
@@ -51,7 +51,7 @@ setup :
 	&& cd $(EXTERNAL)/src/Box2D \
 	&& mkdir -p build296 \
 	&& cd build296 \
-	&& cmake ../ \
+	&& cmake -DCMAKE_BUILD_TYPE=Release ../ \
 	&& make	\
 	&& make install \
 	&& cd .. && cd .. && cd .. && cd .. ;\
@@ -98,23 +98,67 @@ doc:
 	@$(DOXYGEN) $(PROJECT_ROOT)/doc/Doxyfile 2 > /dev/null
 	@echo "Done"
 
+profile: setup exe
+	@perf record -g -- $(PROJECT_ROOT)/mybins/$(TARGET) auto 50000 >/dev/null
+	@perf script | python gprof2dot.py -f perf | dot -Tpng -o prof_graph.png
+	
+
+
 
 clean:
+	@rm -rf cs296_24_project
+	@rm -rf g24_project
 	@rm -rf mylibs/* myobjs/* mybins/*
+	@rm -rf data
+	@rm -rf plots
+	@rm -rf ./scripts/temp1.dat
+	@rm -rf fit.log load
+	@rm -rf ./scripts/temp1.dat
+	@rm -rf g24_release_prof.dat
+	@rm -rf g24_debug_prof.dat
+	@rm -rf release.png
+	@rm -rf debug.png
+	@rm -rf gmon.out
+	@rm -rf ./doc/*.aux
+	@rm -rf ./doc/*.log
+	@rm -rf ./doc/*.pdf
+	@rm -rf ./doc/*.html
 	
-distclean:
+distclean: clean
 	@rm -rf mylibs myobjs mybins
 	@rm -rf $(EXTERNAL)/src/Box2D
 	@rm -rf $(EXTERNAL)/lib/Box2D 
 	@rm -rf $(EXTERNAL)/include/Box2D
+	@rm -rf cs296_g24_project
+
+dist: distclean
+	@tar -cf temp.tar *
+	@mkdir g24_project
+	@tar -xf temp.tar -C g24_project
+	@mkdir -p cs296_g24_project
+	@mv g24_project cs296_g24_project
+	@rm -rf temp.tar
+	@tar czf cs296_g24_project -C cs296_g24_project.tar.gz
+	@rm -rf cs296_g24_project
 
 report:
 	@cd  $(PROJECT_ROOT)/doc \
-	&& latex  cs296_report_24 \
-	&& bibtex  cs296_report_24 \
-	&&latex  cs296_report_24 \
-	&&latex cs296_report_24 \
-	&&dvipdfm cs296_report_24.dvi \
-	&& rm  -rf  cs296_report_24.bbl cs296_report_24.blg cs296_report_24.aux cs296_report_24.log cs296_report_24.dvi;\
+	&& pdflatex  g24_project_report.tex \
+	&& bibtex  g24_project_report \
+	&& pdflatex  g24_project_report.tex \
+	&& pdflatex g24_project_report \
+	&& rm  -rf  g24_project_report.bbl g24_project_report.blg g24_project_report.aux g24_project_report.log g24_project_report.dvi;\
 
+gencsv:
+	@mkdir -p data
+	@cd  $(PROJECT_ROOT)/scripts \
+	&& python g24_gen_csv.py \
 
+plot:
+	@mkdir -p data
+	@mkdir -p plots 
+	@if ! test -e $(PROJECT_ROOT)/mybins/cs296_24_exe ;\
+	then make exe;\
+	fi;
+	@cd  $(PROJECT_ROOT)/scripts \
+	&& python g24_gen_plots.py \

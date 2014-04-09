@@ -1,0 +1,34 @@
+#!/bin/bash
+#Average value finder
+step_times=( $(cut -d ',' -f3 ./data/g24_lab05data_01.csv ) )
+coll_times=( $(cut -d ',' -f4 ./data/g24_lab05data_01.csv ) )
+vel_times=( $(cut -d ',' -f5 ./data/g24_lab05data_01.csv ) )
+pos_times=( $(cut -d ',' -f6 ./data/g24_lab05data_01.csv ) )
+loop_times=( $(cut -d ',' -f7 ./data/g24_lab05data_01.csv ) )
+for i in $(seq 1 1500)
+    do
+	var_s=0.0
+	var_c=0.0
+	var_v=0.0
+	var_p=0.0
+	var_l=0.0
+	for j in $(seq 1 150)
+	    
+	    do
+		lineno=$((( ($i - 1) * 150) + $j))
+		var_s=$(echo $var_s + ${step_times[$lineno - 1]} | bc )
+		var_c=$(echo $var_c + ${coll_times[$lineno - 1]} | bc )
+		var_v=$(echo $var_v + ${vel_times[$lineno - 1]} | bc )
+		var_p=$(echo $var_p + ${pos_times[$lineno - 1]} | bc )
+		var_l=$(echo $var_l + ${loop_times[$lineno - 1]} | bc )
+		#echo $var
+		#echo $lineno
+	    done
+	#echo $var
+	var_s=$(echo $var_s | awk '{printf "%f \n", $var_s/10}')
+	var_c=$(echo $var_c | awk '{printf "%f \n", $var_c/10}')
+	var_v=$(echo $var_v | awk '{printf "%f \n", $var_v/10}')
+	var_p=$(echo $var_p | awk '{printf "%f \n", $var_p/10}')
+	var_l=$(echo $var_l | awk '{printf "%f \n", $var_l/10}')
+	echo "$i,$var_s,$var_c,$var_v,$var_p,$var_l" >> "./data/av_values.csv"
+    done

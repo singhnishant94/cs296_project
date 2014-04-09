@@ -1,0 +1,20 @@
+#!/usr/bin/gnuplot
+
+#DATA = "../data"
+set title "Iterations vs Step and Loop times"
+set terminal png
+#cd .. 
+set output "./plots/g24_plot01.png"
+set datafile separator ','
+set key right top
+
+set yrange [0-20] noreverse
+
+# set size 1,1
+set autoscale
+
+set xlabel " Iteration values"
+set ylabel "Time(ms)"
+
+
+plot "./data/g24_lab05data_01.csv" using 1:3 title "Average Step Time" with boxes, "./data/g24_lab05data_01.csv" using 1:7 title " Average Loop Time" with lines smooth unique
