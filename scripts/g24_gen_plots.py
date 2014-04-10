@@ -18,7 +18,7 @@ c1=[]
 
 fig= plt.figure()
 
-for i in range(8000):
+for i in range(4000):
 	
 	b_1 = 0
 	c_1 = 0
@@ -59,7 +59,7 @@ d1=[]
 e1=[]
 f1=[]
 
-for i in range(8000):
+for i in range(4000):
 	
 	b_1 = 0
 	c_1 = 0
@@ -103,7 +103,7 @@ b = [column[3] for column in data]
 a1=[]
 b1=[]
 
-for i in range(8000):
+for i in range(4000):
 	
 	b_1 = 0
 	
@@ -117,7 +117,7 @@ for i in range(8000):
 	
 b_s = []
 
-for i in range(8000):
+for i in range(4000):
 	
 	b_1s = 0
 	

@@ -105,7 +105,7 @@ for line in report:
         a = line.find(r"{")
         b = line.find(r"}")
         path = line[a+1:b]
-        line = "<img src='" + path + "'>\n"
+        line = "<img src='" + path + "' width=90%>\n"
         if path.find("output")!=-1:
             line = "<img src='" + path + "' width=90%>\n"
         
@@ -123,6 +123,8 @@ for line in report:
     elif line.find(r"\date")!=-1:
         line = today
         line = "<br>\n<center>\n" + line + "</center>\n"
+    elif line.find(r"\cite")!=-1:
+	line = ""
     line = re.sub("\\\\%","%",line)
     line = re.sub("\\\\_","_",line)
     if not any(s in line for s in remove):

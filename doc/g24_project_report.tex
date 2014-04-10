@@ -32,14 +32,16 @@
 A semi-automatic pistol is a type of handgun which uses a single chamber and barrel, with a mechanism powered by the previous shot to load a fresh cartridge into the chamber. One round is fired each time the trigger of a semi-automatic pistol is pulled.A semi-automatic pistol harnesses the energy of one shot to reload the chamber for the next, typically via recoil operation, blowback, or gas operation. After a round is fired, the spent casing is ejected and a new round from the magazine is loaded into the chamber, allowing another shot to be fired as soon as the trigger is again pulled. 
 
 
-\section{Original Design of the gun~\cite{utubesource}.}
+\section{Original Design of the gun}
+~\cite{utubesource}.
 \begin{center}
-\includegraphics[scale=0.5]{./images/actgun.png}
+\includegraphics[scale=0.45]{./images/actgun.png}
 \end{center}
-\section{Original Inkscape Drawing~\cite{ink}.} 
+\section{Original Inkscape Drawing} 
+~\cite{ink}.
 
 \begin{center}
-\includegraphics[scale=0.6]{./images/gunink.png}
+\includegraphics[scale=0.5]{./images/gunink.png}
 \end{center}
 \section{Finished Design of the gun}
 \begin{center}
@@ -186,7 +188,7 @@ The above code has been used to generate the necessary data and call graph image
 \subsection{Debug and Release Modes}
 Debug and Release are different configurations for building the project. Debug mode is used for debugging the project and the Release mode is used for the final build for users. Optimizations complicate the debugging process so the debug mode does not include optimizations and in addition it also generates some extra debug data. The Release mode enables optimizations and generates less debug data.\\
 
-The above fact can be observed easily while running the code in both the modes. In release mode the code takes less time to run than in debug mode. For 20000 iterations the code when run in release mode took around 750ms and when run in debug mode the same code took around 6000ms to run.\\
+The above fact can be observed easily while running the code in both the modes. In release mode the code takes less time to run than in debug mode. For 20000 iterations the code when run in release mode took around 80ms and when run in debug mode the same code took around 600ms to run.\\
 
 Some optimizations reduce the size of the resulting machine code, while others try to create code that is faster, potentially increasing its size.
 The optimization used in the base code is third level optimization i.e. -O3. In this level of optimization more emphasis is given on speed than size.
@@ -221,8 +223,10 @@ The following output was observed when the code was run in debug mode:\\
 \section{Inferences drawn from the Call Graph}
 
 1. The code has been run for 20000 iterations .\\ \\
-2. In release mode, maximum time is taken by the function b2ContactSolver::SolveVelocityConstraints() which is 36.00\% whereas in debug mode, maximum time is taken by the same function\\ b2ContactSolver::SolveVelocityConstraints() but only 22.32\% .\\ \\
-3. In release mode the function b2ContactListener::PostSolve(b2Contact*, b2ContactImpulse const*) has been called most number of times which is 394885 whereas in debug mode it is b2Vec2::b2Vec2(float, float) which has been called 111737403 times..\\ \\
+2. The functions involving vector operations and overloaded operators(+,-and*) are being called quite a significant number of times in debug mode. In release mode, these are not present. At -O2 optimization level the compiler does inlining it is worth doing and the size of the code does not go up. At -O3 the compiler does it if it is worth doing, regardless of whether it will increase the size of the code. Additionally, at all levels of optimization, static functions that are called only once are inlined.\\ \\
+3. In debug mode, the function b2World::SolveTOI(b2TimeStep const\&) takes about 24\% of the total time whereas in release mode this is reduced to 16\% which indicates that the compiler is optimizing this function in release mode.\\ \\
+4. In fact this is the function which takes the maximum amount of time in release mode after the b2World::Step(float,int,int) function.\\
+
 
 \section{Required Optimizations}
 Using the -O3 flag optimizes the code to make it run faster. It also turns on the inline-functions and rename-registers options. So we need to look at the functions which are not optimized even after using the -O3 options.\\

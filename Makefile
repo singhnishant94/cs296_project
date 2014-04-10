@@ -1,3 +1,5 @@
+.SUFFIXES: .cpp .hpp
+
 #Variables
 DOXYGEN = doxygen 
 ECHO	= /bin/echo
@@ -22,9 +24,19 @@ CPPFLAGS+=-I $(BOX2D_ROOT)/include -I $(GLUI_ROOT)/include#729fcf
 LDFLAGS+=-L $(BOX2D_ROOT)/lib -L $(GLUI_ROOT)/lib -p
 LDFLAGS_N=$(LDFLAGS) -L $(PROJECT_ROOT)/mylibs -Wl,-R$(PROJECT_ROOT)/mylibs
 
-OK="[OK]"
-ERR="[ERRORS]"
-WARN="[WARNINGs]"
+NO_COLOR=\e[0m
+OK_COLOR=\e[1;32m
+ERR_COLOR=\e[1;31m
+WARN_COLOR=\e[1;33m
+MESG_COLOR=\e[1;34m
+FILE_COLOR=\e[1;37m
+
+OK_STRING="[OK]"
+ERR_STRING="[ERRORS]"
+WARN_STRING="[WARNINGS]"
+OK_FMT="${OK_COLOR}%30s\n${NO_COLOR}"
+ERR_FMT="${ERR_COLOR}%30s\n${NO_COLOR}"
+WARN_FMT="${WARN_COLOR}%30s\n${NO_COLOR}"
 
 TARGET=cs296_24_exe
 
@@ -37,6 +49,8 @@ OBJS := $(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 NEW_OBJS := $(filter-out $(PROJECT_ROOT)/myobjs/main.o,$(OBJS))
 
 EXELIB=$(PROJECT_ROOT)/mybins/cs296_24_exelib
+
+INSTALLDIR = $(PROJECT_ROOT)
 
 .PHONY: all setup exe doc distclean clean
 
@@ -51,7 +65,7 @@ setup :
 	&& cd $(EXTERNAL)/src/Box2D \
 	&& mkdir -p build296 \
 	&& cd build296 \
-	&& cmake -DCMAKE_BUILD_TYPE=Release ../ \
+	&& cmake ../ \
 	&& make	\
 	&& make install \
 	&& cd .. && cd .. && cd .. && cd .. ;\
@@ -68,7 +82,7 @@ $(OBJS) : $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 	fi;
 	@rm -f temp.log temp.err
 
-exe: $(OBJS)
+exe: setup $(OBJS)
 	@printf "Creating Executable now.."
 	@g++ -o $(PROJECT_ROOT)/mybins/$(TARGET) $(LDFLAGS) $(OBJS) $(LIBS) 2> temp.log || touch temp.err
 	@if test -e temp.err; \
@@ -99,7 +113,7 @@ doc:
 	@echo "Done"
 
 profile: setup exe
-	@perf record -g -- $(PROJECT_ROOT)/mybins/$(TARGET) auto 50000 >/dev/null
+	@perf record -g -- $(PROJECT_ROOT)/mybins/$(TARGET) auto 20000 >/dev/null
 	@perf script | python gprof2dot.py -f perf | dot -Tpng -o prof_graph.png
 	
 
@@ -114,10 +128,8 @@ clean:
 	@rm -rf ./scripts/temp1.dat
 	@rm -rf fit.log load
 	@rm -rf ./scripts/temp1.dat
-	@rm -rf g24_release_prof.dat
-	@rm -rf g24_debug_prof.dat
-	@rm -rf release.png
-	@rm -rf debug.png
+	@rm -rf *.data
+	@rm -rf *.png
 	@rm -rf gmon.out
 	@rm -rf ./doc/*.aux
 	@rm -rf ./doc/*.log
@@ -130,16 +142,34 @@ distclean: clean
 	@rm -rf $(EXTERNAL)/lib/Box2D 
 	@rm -rf $(EXTERNAL)/include/Box2D
 	@rm -rf cs296_g24_project
+	@rm -rf cs296_g24_project
 
 dist: distclean
 	@tar -cf temp.tar *
-	@mkdir g24_project
-	@tar -xf temp.tar -C g24_project
+	@mkdir -p cs296_base_code
+	@mkdir -p g24_project
+	@tar -xf temp.tar -C cs296_base_code
+	@mv cs296_base_code g24_project
 	@mkdir -p cs296_g24_project
 	@mv g24_project cs296_g24_project
 	@rm -rf temp.tar
 	@tar czf cs296_g24_project.tar.gz cs296_g24_project
 	@rm -rf cs296_g24_project
+
+install: dist
+	@mv ./cs296_g24_project.tar.gz $(INSTALLDIR)/temp.tar.gz
+	@cd $(INSTALLDIR);\
+	printf "Project Files are being extracted ...  \n";\
+	tar -xzf temp.tar.gz;\
+	rm -rf temp.tar.gz;\
+	cd cs296_g24_project/g24_project/cs296_base_code;\
+	printf "Box2D is getting installed ...  \n";\
+	make >/dev/null;\
+	printf "Compiling and creating executable ...  \n";\
+	make exe>/dev/null;\
+	printf "[OK]\n";\
+	
+	
 
 report:
 	@cd  $(PROJECT_ROOT)/doc \

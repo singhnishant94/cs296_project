@@ -4,7 +4,7 @@ import sys
 import time
 today = time.strftime("%d/%m/%Y")
 report = open("../doc/g24_project_report.tex","r")
-output = open("../doc/g24_lab09_report.html","w")
+output = open("../doc/g24_project_report.html","w")
 remove = ("\documentclass","\usepackage",r"\bibliographystyle",r"\maketitle")
 output.write("<html>\n")
 firstsec = True
@@ -123,6 +123,8 @@ for line in report:
     elif line.find(r"\date")!=-1:
         line = today
         line = "<br>\n<center>\n" + line + "</center>\n"
+    elif line.find(r"\cite")!=-1:
+	line = ""
     line = re.sub("\\\\%","%",line)
     line = re.sub("\\\\_","_",line)
     if not any(s in line for s in remove):

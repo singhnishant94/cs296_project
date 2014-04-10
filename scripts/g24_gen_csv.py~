@@ -15,7 +15,7 @@ import csv
 
 with open('../data/ex1.csv' , 'w') as csvfile:
 	spamwriter= csv.writer(csvfile,delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-	for i in range(10000):
+	for i in range(4000):
 		for j in range(5):
 			output = subprocess.Popen(["../mybins/cs296_24_exe","auto",str(i+1)], stderr=subprocess.STDOUT, stdout=subprocess.PIPE).communicate()[0]
 			b = re.findall(r'\d+.\d+', output)
