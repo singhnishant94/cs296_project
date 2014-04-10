@@ -27,4 +27,4 @@ The gun is semi-automatic i.e. it performs all steps necessary to prepare the we
 So, the gun has to be loaded only once in the beginning and it keeps firing on pressing trigger as long as there 
 are bullets in the magazine.  
 
-[Visit the project page](www.cse.iitb.ac.in/~nishantsingh/cs296_project)
+[Visit the project page](www.cse.iitb.ac.in/~nishantsingh/cs296_project.html)
