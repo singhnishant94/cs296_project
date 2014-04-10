@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#CSV File Generator
+for i in $(seq 1 50);
+    do 
+			entries=($(shuf -i 0-9 -n 5 | sort -n))
+			#echo "${entries[@]}"
+			for j in "${entries[@]}"; do
+			lineno=$((( ($i - 1) * 10) + $j + 1))
+			#echo $lineno
+			{
+				line=$(sed -n "${lineno}p" "./data/g24_lab05data_02.csv")
+			}
+			echo $line >> ./data/g24_lab05data_random.csv
+			done
+		
+    done

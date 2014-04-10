@@ -27,6 +27,10 @@
 #include "render.hpp"
 #include "cs296_base.hpp"
 #include "callbacks.hpp"
+#include <string>
+#include <sys/time.h>
+#include <iostream>
+#include <sstream>
 
 //! GLUI is the library used for drawing the GUI
 //! Learn more about GLUI by reading the GLUI documentation
@@ -41,11 +45,13 @@
 //! These are usually available at standard system paths like /usr/include
 //! Read about the use of include files in C++
 #include <cstdio>
-
+using namespace std;
 
 //! Notice the use of extern. Why is it used here?
 namespace cs296
 {
+  extern bool reload;
+  extern bool automatic;
   extern int32 test_index;
   extern int32 test_selection;
   extern int32 test_count;
@@ -96,6 +102,7 @@ void create_glui_ui(void)
   glui->add_statictext("Display Options"); 
   GLUI_Panel* drawPanel =	glui->add_panel("Draw");
   glui->add_checkbox_to_panel(drawPanel, "Shapes", &settings.draw_shapes);
+  settings.draw_joints = 0;
   glui->add_checkbox_to_panel(drawPanel, "Joints", &settings.draw_joints);
   glui->add_checkbox_to_panel(drawPanel, "AABBs", &settings.draw_AABBs);
   glui->add_checkbox_to_panel(drawPanel, "Statistics", &settings.draw_stats);
@@ -110,10 +117,51 @@ void create_glui_ui(void)
   glui->set_main_gfx_window( main_window );
 }
 
+//////////////////////////////////////
+void print_avtime(int iterations_count){
+
+float32 time_step=1/settings_hz;
+b2World* this_world = test->get_world();
+const b2Profile& p = this_world->GetProfile();
+int32 steps= 0;
+
+
+float32 vel_t=0.0000;
+float32 pos_t=0.0000;
+float32 av_t=0.0000;
+float32 coll_t=0.0000;
+
+while (steps<iterations_count){
+this_world->Step(time_step, settings.velocity_iterations, settings.position_iterations);
+av_t +=p.step;
+coll_t +=p.collide;
+vel_t +=p.solveVelocity;
+pos_t +=p.solvePosition;
+steps++;
+}
+printf("Number of Iterations: %d\n",iterations_count);
+printf("Average time per step is %f ms\n",av_t/iterations_count);
+printf("Average time for collisions is %f ms\n",coll_t/iterations_count);
+printf("Average time for velocity updates is %f ms\n",vel_t/iterations_count);
+printf("Average time for position updates is %f ms\n",pos_t/iterations_count);
+//printf("Total time is %fms\n",(av_t+coll_t+vel_t+pos_t));
+}
+
+//////////////////////////////////////
+
 
 //! This is the main function
 int main(int argc, char** argv)
 {
+  // On providing auto as the argument simulation happens automatically.	
+  if (argc > 1) {
+	  std::string arg1(argv[1]);
+	  std::cout<<arg1;
+	  if(arg1=="auto") {
+		  automatic = true;
+		  reload = true;
+	  }
+  }
   test_count = 1;
   test_index = 0;
   test_selection = test_index;
@@ -141,12 +189,31 @@ int main(int argc, char** argv)
   glutMotionFunc(callbacks_t::mouse_motion_cb);
   glutKeyboardUpFunc(callbacks_t::keyboard_up_cb); 
   glutTimerFunc(frame_period, callbacks_t::timer_cb, 0);
+  
+  ///////////////////////
+  if(argc > 2  ){
+	  struct timeval tv;
+    gettimeofday(&tv,NULL);
+  long double time_begin_s= tv.tv_sec;
+  long double time_begin_u= tv.tv_usec;
+  double time_begin=time_begin_s*1000 + time_begin_u/1000.0;
+   print_avtime(atoi(argv[2]));
+  gettimeofday(&tv,NULL);
+  long double time_end_s= tv.tv_sec;
+  long double time_end_u= tv.tv_usec;
+  double time_end=time_end_s*1000 + time_end_u/1000.0;
+  cout<<endl<<"Total loop time is "<<(time_end-time_begin)<<" ms\n";
+}
+  ///////////////////////
+  else{
 
   //! We create the GLUI user interface
   create_glui_ui();
 
   //! Enter the infinite GLUT event loop
   glutMainLoop();
+  
+	}
   
   return 0;
 }

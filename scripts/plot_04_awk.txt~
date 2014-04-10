@@ -1,0 +1,14 @@
+#!/bin/sh
+
+awk ' #!/bin/awk
+
+BEGIN{
+	FS = ",";
+	}
+	{
+		if ( $1 == 25){
+	print $2 FS $3
+}}
+END {
+}'
+

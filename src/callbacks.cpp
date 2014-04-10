@@ -7,7 +7,6 @@
 //! These are user defined include files
 //! Included in double quotes - the path to find these has to be given at compile time
 #include "callbacks.hpp"
-#include "dominos.hpp"
 
 #ifndef __APPLE__
 #include "GL/glui.h"
@@ -36,7 +35,6 @@ namespace cs296
   int tx, ty, tw, th;
   bool r_mouse_down;
   b2Vec2 lastp;
-  
 
   b2Vec2 callbacks_t::convert_screen_to_world(int32 x, int32 y)
   {
@@ -119,11 +117,10 @@ namespace cs296
       settings.pause = !settings.pause;
       break;
       
-      //! The default case. Why is this needed?
-    case 'q':
-      test->callme();
+    /*case 'q':
+      test->func();
       break;
-      
+      */
       //! The default case. Why is this needed?
     default:
       if (test)

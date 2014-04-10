@@ -1,0 +1,24 @@
+#!/bin/bash
+step_times=( $(cut -d ',' -f3 ./data/g24_lab05data_01.csv ) )
+coll_times=( $(cut -d ',' -f4 ./data/g24_lab05data_01.csv ) )
+vel_times=( $(cut -d ',' -f5 ./data/g24_lab05data_01.csv ) )
+pos_times=( $(cut -d ',' -f6 ./data/g24_lab05data_01.csv ) )
+loop_times=( $(cut -d ',' -f7 ./data/g24_lab05data_01.csv ) )
+av_values=( $(cut -d ',' -f2 ./data/av_values.csv ) )
+for i in $(seq 1 50)
+    do
+	variance=0
+	for j in $(seq 1 10)
+	    
+	    do
+		lineno=$((( ($i - 1) * 10) + $j))
+		v1=$(echo ${step_times[$lineno - 1]} - ${av_values[$i - 1]} | bc )
+		v2=`expr $v1*$v1`
+		variance=$(echo $variance + $v2  | bc )
+		#echo $var
+		#echo $lineno
+	    done
+	#echo $var
+	stddev=$(echo sqrt "($variance)" | bc)
+	echo "$i,${av_values[$i - 1]},$stddev" >> "./data/stddev.csv"
+    done

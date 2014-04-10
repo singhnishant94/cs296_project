@@ -29,11 +29,30 @@
 #include "render.hpp"
 #include <Box2D/Box2D.h>
 #include <cstdlib>
+#include <iostream>
 
 #define	RAND_LIMIT 32767
 
+
+
+
 namespace cs296
 {
+	extern bool automatic;
+	extern bool jointdestroy[3];
+	extern bool reload;
+	extern int i;
+	extern b2Body* body_pb;
+	extern b2Body* body_pb1;
+	extern b2Body* body_t;
+	extern b2Body* body_bul[3];
+	extern b2Body* body_bulhead[3];
+	extern b2RevoluteJoint* joint_1[3];
+	extern b2RevoluteJoint* joint_2[3];
+	extern int noofsteps;
+	extern b2Body* curbul;
+	
+	
 	/**  The is the header file for cs296_base.cpp
      * This is the documentation block for the header file.
      * 
@@ -158,9 +177,8 @@ namespace cs296
 	   * It stores all the information about the contacts before the solving time, and it can display the contact points.<br> 
 	   */
   public:
-    b2Body* bodyx;
-    b2Body* temp;
-    void callme();
+
+    //temp = body_pb2;
     //void step(settings_t*);
     
     base_sim_t();
@@ -186,13 +204,17 @@ namespace cs296
     virtual void joint_destroyed(b2Joint* joint) { B2_NOT_USED(joint); }
     
     // Callbacks for derived classes.
-    virtual void begin_contact(b2Contact* contact) { B2_NOT_USED(contact); }     //!< Called when 2 bodies undergo collision
-    virtual void end_contact(b2Contact* contact) { B2_NOT_USED(contact); }      //!< end point of collision
+    /*
+    virtual void begin_contact(b2Contact* contact) {B2_NOT_USED(contact);}     //!< Called when 2 bodies undergo collision
+    virtual void end_contact(b2Contact* contact) {B2_NOT_USED(contact);}   */   //!< end point of collision
     virtual void pre_solve(b2Contact* contact, const b2Manifold* oldManifold);
     virtual void post_solve(const b2Contact* contact, const b2ContactImpulse* impulse)
     {
       B2_NOT_USED(contact);
       B2_NOT_USED(impulse);
+    }
+    b2World* get_world(void){
+   return m_world;
     }
 
   //!How are protected members different from private memebers of a class in C++ ?
@@ -221,6 +243,10 @@ namespace cs296
     b2Profile m_max_profile;
     b2Profile m_total_profile;
   };
+  
+ 
+  
+  
 }
 
 #endif

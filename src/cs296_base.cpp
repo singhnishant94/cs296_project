@@ -52,6 +52,7 @@ base_sim_t::~base_sim_t()
 
 void base_sim_t::pre_solve(b2Contact* contact, const b2Manifold* oldManifold)
 {
+	std::cout<<"yes";
   const b2Manifold* manifold = contact->GetManifold();
   
   if (manifold->pointCount == 0)
@@ -87,6 +88,8 @@ void base_sim_t::draw_title(int x, int y, const char *string)
 
 void base_sim_t::step(settings_t* settings)
 {
+	
+	
   float32 time_step = settings->hz > 0.0f ? 1.0f / settings->hz : float32(0.0f);
 
   if (settings->pause)
@@ -244,12 +247,53 @@ void base_sim_t::step(settings_t* settings)
 	    }
 	}
     }
-}
-
-void base_sim_t::callme(){
-	//cout <<"here\n";
-	cout <<bodyx->GetPosition().y << endl;
-	bodyx->ApplyForce(b2Vec2(1000,1000), b2Vec2(bodyx->GetWorldCenter().x,bodyx->GetWorldCenter().y+2.0f) ,true);
-}
-
+    
+    
+    // The situation when one bullet has been fired i.e. now the gun has to automatically
+    //  reload
+    if(reload){
+		// Check which bullet has been fired and destroy that particular joint.
+		for(int j =0 ;j<3;j++){
+			if(jointdestroy[j]) {
+				jointdestroy[j] = false;
+				if(joint_1[j] != NULL){
+					m_world->DestroyJoint(joint_1[j]);
+					joint_1[j] = NULL;
+				}
+				if(joint_2[j] != NULL){
+					m_world->DestroyJoint(joint_2[j]);
+					joint_2[j] = NULL;
+				}
+				// Give linear impulse to bullethead and almost-vertical impulse to the shell
+				body_bulhead[j]->ApplyLinearImpulse(b2Vec2(-1000,0),body_bulhead[j]->GetWorldCenter(),true);
+				body_bul[j]->ApplyLinearImpulse(b2Vec2(2,1000),body_bul[j]->GetWorldCenter(),true);
+				curbul = body_bul[j];
+			}
+		}
+		
+	}
 	
+	// The automatic reloading of the gun.
+	if(reload){
+		if(i%2==0 && i<30){
+		body_pb->ApplyForce(b2Vec2(5000,0),body_pb->GetWorldCenter(),true);
+		body_pb1->ApplyForce(b2Vec2(5000,0),body_pb1->GetWorldCenter(),true);
+		if(curbul != NULL){
+			curbul->ApplyLinearImpulse(b2Vec2(10,0),curbul->GetWorldCenter(),true);
+		}
+		
+		}
+		i++;
+		if(i>100 && automatic){
+			reload = false;
+			for(int z =0 ;z<30;z++){
+			body_t->ApplyForce(b2Vec2(100,0),b2Vec2(body_t->GetWorldCenter().x-1.0f,body_t->GetWorldCenter().y-4.0f),true);
+			//for( long i=0; i<pow(10,6); i++){}
+			}
+			i = 0;
+		}
+	}
+	noofsteps++;
+	//std::cout<<noofsteps<<"\n";
+    
+}
