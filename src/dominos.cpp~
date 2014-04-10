@@ -234,8 +234,7 @@ namespace cs296
      * Var: shape, Type: b2PolygonShape, Desc: The shape corresponding to Extensions to the base.<br>
      * Var: bd, Type: b2BodyDef, Desc: The actual body denoting thebase.<br>
      * Var: ground1, Type: b2Body*, Desc: This is a pointer to base.<br>
-     *Var : jointDef,Type:b2DistanceJointDef, Desc:This is distance joints function as spring in the bullet magazine <br>
-     * Var : jointDef,Type:b2DistanceJointDef, Desc:This is distance joints function as spring in the bullet magazine <br>
+     *Var : jointDef,Type:b2DistanceJointDef, Desc:This is a pointer
      */ 
     {
 	  b2PolygonShape shape2;
@@ -294,12 +293,6 @@ namespace cs296
 
 
 	//left boundary
-	/*! \par Left Boundary
-     
-     * Var: shape, Type: b2PolygonShape, Desc: The shape corresponding to left boundary.<br>
-     * Var: bd, Type: b2BodyDef, Desc: The actual body denoting the left boundary.<br>
-     * Var: ground, Type: b2Body*, Desc: This is a pointer to left boundary.<br>
-     */ 
     {
       b2PolygonShape shape;
       shape.SetAsBox(0.25f, 10.0f);
@@ -310,12 +303,6 @@ namespace cs296
       ground->CreateFixture(&shape, 0.0f);
     }
     //right boundary
-    /*! \par Right Boundary
-     
-     * Var: shape, Type: b2PolygonShape, Desc: The shape corresponding to Right boundary.<br>
-     * Var: bd, Type: b2BodyDef, Desc: The actual body denoting the Right boundary.<br>
-     * Var: ground, Type: b2Body*, Desc: This is a pointer to Right boundary.<br>
-     */ 
     {
       b2PolygonShape shape;
       shape.SetAsBox(0.25f,10.5f);
@@ -326,23 +313,6 @@ namespace cs296
       ground->CreateFixture(&shape, 0.0f);
     }
     
-    /*! \par shell of the bullet
-     
-     * Var: shape2, Type: b2PolygonShape, Desc: The shape corresponding to shell of the bullet.<br>
-     * Var: bd3, Type: b2BodyDef, Desc: The actual body denoting the shell of the bullet.<br>
-     * Var: fd3, Type: b2FixtureDef *, Desc: This is a pointer to shell of the bullet.<br>
-     */ 
-     
-     /*! \par Triangular part of the bullet 
-     
-     * Var: poly5, Type: b2PolygonShape, Desc: The shape corresponding to triangular part of the bullet.<br>
-     * * Var: vertices5, Type: b2Vec2[], Desc: Array of vertices to denote the  triangular part of the bullet.<br>
-     * Var: wedgebd5, Type: b2BodyDef, Desc: The actual body denoting the triangular part  of the bullet.<br>
-     * Var: wedgefd5, Type: b2FixtureDef *, Desc: This is a pointer to triangular part  of the bullet.<br>
-     * 
-     */ 
-     
-     
     
 	for (int i = 0; i<3 ; i++){
 		// The shell of the bullet////
@@ -402,18 +372,6 @@ namespace cs296
 
 
        //The stopper for the hammer i.e. which holds the hammer back till the user presses trigger ****************
-       /*! \par stopper for the hammer
-     
-     * Var: vertices_pb, Type: b2Vec2[], Desc: Array of vertices to denote the  stopper for the hammer.<br>
-     * Var: vertices_pb1, Type: b2Vec2[], Desc: Array of vertices to denote the  stopper for the hammer.<br>
-     * Var: vertices3, Type: b2Vec2[], Desc: Array of vertices to denote the  stopper for the hammer.<br>
-     * Var:polygon_pb , Type:b2PolygonShape, Desc: The shape corresponding to stopper for the hammer <br>
-     *  Var:polygon_pb1 , Type:b2PolygonShape, Desc: The shape corresponding to stopper for the hammer <br>
-     *  Var:polygon3 , Type:b2PolygonShape, Desc: The shape corresponding to stopper for the hammer <br>
-     * Var: bd_pd, Type: b2BodyDef, Desc: The actual body denoting the stopper of the hammer.<br>
-     * Var: wedgefd5, Type: b2FixtureDef *, Desc: This is a pointer to triangular part  of the bullet.<br>
-     */ 
-     
       
       {
 		 
@@ -721,7 +679,7 @@ namespace cs296
       body32->CreateFixture(fd32);
       //body32->SetActive(false);
  
-     //////////////////////////////////////////////////////////////////////////////////////////
+     
 		//The pullback mechanism  ************************
 		
 		
