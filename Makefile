@@ -54,7 +54,7 @@ INSTALLDIR = $(PROJECT_ROOT)
 
 .PHONY: all setup exe doc distclean clean
 
-all: setup
+all: setup exe
 
 setup :
 	@mkdir -p myobjs mylibs mybins
@@ -120,7 +120,8 @@ profile: setup exe
 
 
 clean:
-	@rm -rf cs296_24_project
+	@rm -rf cs296_g24_project
+	@rm -rf cs296_g24_project*
 	@rm -rf g24_project
 	@rm -rf mylibs/* myobjs/* mybins/*
 	@rm -rf data
@@ -167,24 +168,28 @@ install: dist
 	make >/dev/null;\
 	printf "Compiling and creating executable ...  \n";\
 	make exe>/dev/null;\
+	make doc>/dev/null;\
+	rm -rf mylibs myobjs src data plots external;\
 	printf "[OK]\n";\
 	
 	
 
 report:
 	@cd  $(PROJECT_ROOT)/doc \
-	&& pdflatex  g24_project_report.tex \
-	&& bibtex  g24_project_report \
-	&& pdflatex  g24_project_report.tex \
-	&& pdflatex g24_project_report \
+	&& pdflatex  g24_project_report.tex >/dev/null \
+	&& bibtex  g24_project_report >/dev/null \
+	&& pdflatex  g24_project_report.tex >/dev/null\
+	&& pdflatex g24_project_report >/dev/null\
 	&& rm  -rf  g24_project_report.bbl g24_project_report.blg g24_project_report.aux g24_project_report.log g24_project_report.dvi;\
+	cd ../scripts;\
+	python g24_gen_html.py;
 
-gencsv:
+gencsv: exe
 	@mkdir -p data
 	@cd  $(PROJECT_ROOT)/scripts \
 	&& python g24_gen_csv.py \
 
-plot:
+plot: exe
 	@mkdir -p data
 	@mkdir -p plots 
 	@if ! test -e $(PROJECT_ROOT)/mybins/cs296_24_exe ;\

@@ -248,11 +248,16 @@ void base_sim_t::step(settings_t* settings)
 	}
     }
     
-    
+     /** 
+	* The situation when one bullet has been fired i.e. now the gun has to automatically 
+	* reload
+	*/
     // The situation when one bullet has been fired i.e. now the gun has to automatically
     //  reload
     if(reload){
-		// Check which bullet has been fired and destroy that particular joint.
+		/** Check which bullet has been fired and destroy that particular joint.
+		 * 
+		 */
 		for(int j =0 ;j<3;j++){
 			if(jointdestroy[j]) {
 				jointdestroy[j] = false;
@@ -264,7 +269,8 @@ void base_sim_t::step(settings_t* settings)
 					m_world->DestroyJoint(joint_2[j]);
 					joint_2[j] = NULL;
 				}
-				// Give linear impulse to bullethead and almost-vertical impulse to the shell
+				/** Give linear impulse to bullethead and almost-vertical impulse to the shell
+				 */ 
 				body_bulhead[j]->ApplyLinearImpulse(b2Vec2(-1000,0),body_bulhead[j]->GetWorldCenter(),true);
 				body_bul[j]->ApplyLinearImpulse(b2Vec2(2,1000),body_bul[j]->GetWorldCenter(),true);
 				curbul = body_bul[j];
@@ -273,7 +279,8 @@ void base_sim_t::step(settings_t* settings)
 		
 	}
 	
-	// The automatic reloading of the gun.
+	/** The automatic reloading of the gun.
+	 */ 
 	if(reload){
 		if(i%2==0 && i<30){
 		body_pb->ApplyForce(b2Vec2(5000,0),body_pb->GetWorldCenter(),true);

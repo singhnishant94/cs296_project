@@ -37,7 +37,9 @@
 
 
 namespace cs296
-{
+{	
+	/*! These variables were needed in the cpp file. They have been properly described in dominos.hpp file.
+	 */
 	extern bool automatic;
 	extern bool jointdestroy[3];
 	extern bool reload;

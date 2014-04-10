@@ -5,7 +5,7 @@ import time
 today = time.strftime("%d/%m/%Y")
 report = open("../doc/g24_project_report.tex","r")
 output = open("../doc/g24_project_report.html","w")
-remove = ("\documentclass","\usepackage",r"\bibliographystyle",r"\maketitle")
+remove = ("\documentclass","\usepackage",r"\makeat",r"\renewcomma",r"\ifnum",r"\fi",r"\else",r"\bibliography",r"\maketitle")
 output.write("<html>\n")
 firstsec = True
 firstsubsec = True
@@ -126,6 +126,7 @@ for line in report:
     elif line.find(r"\cite")!=-1:
 	line = ""
     line = re.sub("\\\\%","%",line)
+    line = re.sub("\\\\&","&",line)
     line = re.sub("\\\\_","_",line)
     if not any(s in line for s in remove):
         output.write(line)

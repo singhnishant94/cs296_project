@@ -78,6 +78,11 @@ namespace cs296
       
      ///////////////////////Varun 's part /////////////////////////////
      // lower rod
+/*! \par lower rod
+     * Var: shape, Type: b2PolygonShape, Desc: The shape corresponding to lower rod.<br>
+     * Var: bd, Type: b2BodyDef, Desc: The actual body denoting the lower rod.<br>
+     * Var: ground, Type: b2Body*, Desc: This is a pointer to lower rod.<br>
+     */ 
 	{
       b2PolygonShape shape;
       shape.SetAsBox(6.0f, 0.25f);
@@ -89,6 +94,11 @@ namespace cs296
     }
      
          // diagonal rod
+/*! \par diagonal rod
+     * Var: shape, Type: b2PolygonShape, Desc: The shape corresponding to diagonal rod.<br>
+     * Var: bd, Type: b2BodyDef, Desc: The actual body denoting the diagonal rod.<br>
+     * Var: ground, Type: b2Body*, Desc: This is a pointer to diagonal rod.<br>
+     */          
     {
       b2PolygonShape shape;
 	  shape.SetAsBox(sqrt(2.8f), 0.20f);
@@ -107,6 +117,16 @@ namespace cs296
 
 }
          //upper rod
+/*! \par upper rod
+     * Var: shape, Type: b2PolygonShape, Desc: The shape corresponding to upper rod.<br>
+     * Var: bd, Type: b2BodyDef, Desc: The actual body denoting the upper rod.<br>
+     * Var: ground, Type: b2Body*, Desc: This is a pointer to upper rod.<br>
+      * Var: vertices, Type: b2Vec2[], Desc: Array of vertices to denote the corners .<br>
+     * Var:s , Type: b2PolygonShape,Desc: A shape using the vertices.<br>
+      * Var: shape1, Type: b2PolygonShape, Desc: The shape corresponding to small object which keeps the bullet from going ahead in the barrel.<br>
+     * Var: bd1, Type: b2BodyDef, Desc: The actual body denoting the upper rod.<br>
+     * Var: ground1, Type: b2Body*, Desc: This is a pointer to upper rod.<br>
+     */ 
     {
       b2PolygonShape shape;
       shape.SetAsBox(3.0f, 0.25f);
@@ -153,6 +173,11 @@ namespace cs296
     
     
     //Extensions to the barrel's upper and lower rods
+/*! \par Extensions to the barrel's upper rods
+     * Var: shape, Type: b2PolygonShape, Desc: The shape corresponding to Extensions to the barrel's upper rod.<br>
+     * Var: bd, Type: b2BodyDef, Desc: The actual body denoting the Extensions to the barrel's upper rod.<br>
+     * Var: ground, Type: b2Body*, Desc: This is a pointer to Extensions to the barrel's upper rod.<br>
+     */ 
     {
 		
 	  b2PolygonShape shape;
@@ -168,7 +193,11 @@ namespace cs296
       ground->CreateFixture(fd);
       
   }
-  
+ /*! \par Extensions to the barrel's lower rod
+     * Var: shape, Type: b2PolygonShape, Desc: The shape corresponding to Extensions to the barrel's lower rod.<br>
+     * Var: bd, Type: b2BodyDef, Desc: The actual body denoting the Extensions to the barrel's lower rod.<br>
+     * Var: ground, Type: b2Body*, Desc: This is a pointer to Extensions to the barrel's lower rod.<br>
+     */ 
   {
 	
 	      b2PolygonShape shape;
@@ -186,6 +215,17 @@ namespace cs296
   }
     
 	//bullet magazine
+/*! \par Bullet Magazine
+     * Var: shape2, Type: b2PolygonShape, Desc: The shape corresponding to bullet magazine.<br>
+     * Var: bd3, Type: b2BodyDef, Desc: The actual body denoting the bullet magazine.<br>
+     * Var: ground, Type: b2Body*, Desc: This is a pointer to Extensions to the barrel's lower rod.<br>
+     * Var :jointDef2, Type: b2PrismaticJointDef , Desc: This defines the joints in the bullet magazine <br>
+     * Var: shape, Type: b2PolygonShape, Desc: The shape corresponding to Extensions to the base.<br>
+     * Var: bd, Type: b2BodyDef, Desc: The actual body denoting thebase.<br>
+     * Var: ground1, Type: b2Body*, Desc: This is a pointer to base.<br>
+     *Var : jointDef,Type:b2DistanceJointDef, Desc:This is distance joints function as spring in the bullet magazine <br>
+     * Var : jointDef,Type:b2DistanceJointDef, Desc:This is distance joints function as spring in the bullet magazine <br>
+     */ 
     {
 	  b2PolygonShape shape2;
       shape2.SetAsBox(2.5f, 0.25f);
@@ -240,7 +280,11 @@ namespace cs296
 		m_world->CreateJoint(&jointDef1);
 
     }
-
+/*! \par Left Boundary
+     * Var: shape, Type: b2PolygonShape, Desc: The shape corresponding to left boundary.<br>
+     * Var: bd, Type: b2BodyDef, Desc: The actual body denoting the left boundary.<br>
+     * Var: ground, Type: b2Body*, Desc: This is a pointer to left boundary.<br>
+     */ 
 
 	//left boundary
     {
@@ -252,6 +296,12 @@ namespace cs296
       b2Body* ground = m_world->CreateBody(&bd);
       ground->CreateFixture(&shape, 0.0f);
     }
+    
+    /*! \par Right Boundary
+     * Var: shape, Type: b2PolygonShape, Desc: The shape corresponding to Right boundary.<br>
+     * Var: bd, Type: b2BodyDef, Desc: The actual body denoting the Right boundary.<br>
+     * Var: ground, Type: b2Body*, Desc: This is a pointer to Right boundary.<br>
+     */ 
     //right boundary
     {
       b2PolygonShape shape;
@@ -262,7 +312,19 @@ namespace cs296
       b2Body* ground = m_world->CreateBody(&bd);
       ground->CreateFixture(&shape, 0.0f);
     }
-    
+    /*! \par shell of the bullet
+     * Var: shape2, Type: b2PolygonShape, Desc: The shape corresponding to shell of the bullet.<br>
+     * Var: bd3, Type: b2BodyDef, Desc: The actual body denoting the shell of the bullet.<br>
+     * Var: fd3, Type: b2FixtureDef *, Desc: This is a pointer to shell of the bullet.<br>
+     */ 
+     
+     /*! \par Triangular part of the bullet 
+     * Var: poly5, Type: b2PolygonShape, Desc: The shape corresponding to triangular part of the bullet.<br>
+     * * Var: vertices5, Type: b2Vec2[], Desc: Array of vertices to denote the  triangular part of the bullet.<br>
+     * Var: wedgebd5, Type: b2BodyDef, Desc: The actual body denoting the triangular part  of the bullet.<br>
+     * Var: wedgefd5, Type: b2FixtureDef *, Desc: This is a pointer to triangular part  of the bullet.<br>
+     * 
+     */ 
     
 	for (int i = 0; i<3 ; i++){
 		// The shell of the bullet////
@@ -322,7 +384,25 @@ namespace cs296
 
 
        //The stopper for the hammer i.e. which holds the hammer back till the user presses trigger ****************
-      
+       /*! \par stopper for the hammer
+     * Var: vertices_pb, Type: b2Vec2[], Desc: Array of vertices to denote the  stopper for the hammer.<br>
+     * Var: vertices_pb1, Type: b2Vec2[], Desc: Array of vertices to denote the  stopper for the hammer.<br>
+     * Var: vertices3, Type: b2Vec2[], Desc: Array of vertices to denote the  stopper for the hammer.<br>
+     * Var:polygon_pb , Type:b2PolygonShape, Desc: The shape corresponding to stopper for the hammer <br>
+     *  Var:polygon_pb1 , Type:b2PolygonShape, Desc: The shape corresponding to stopper for the hammer <br>
+     *  Var:polygon3 , Type:b2PolygonShape, Desc: The shape corresponding to stopper for the hammer <br>
+     * Var: bd_pd, Type: b2BodyDef, Desc: The actual body denoting the stopper of the hammer.<br>
+     * Var: fd_pd, Type: b2FixtureDef *, Desc: This is a pointer to stopper of the hammer.<br>
+     *  Var: bdx3, Type: b2BodyDef, Desc: The actual body denoting the spring part of the hammer.<br>
+     * Var:jointDef3xy , Type:b2RevoluteJointDef ,Desc:The actual joint denoting the hammer joints<br>
+     */
+     
+     /*! \par Small joining rod
+      * Var: shapenw, Type: b2PolygonShape, Desc: The shape corresponding to Small joining rod.<br>
+     * Var: bodynew, Type: b2BodyDef, Desc: The actual body denoting the Small joining rod.<br>
+     *  Var: arod, Type: b2BodyDef, Desc: The actual body denoting the  small joint rod .<br>
+     * Var:jointDefrod , Type:b2RevoluteJointDef ,Desc:The actual joint denoting thesmall  joint rod <br>
+     */     
       {
 		 
 		
@@ -441,7 +521,16 @@ namespace cs296
       
       ///////// The Trigger i.e the part which is available to the user to press/////////
       
-      
+       /*! \par The Trigger
+      * Var: vertices_pb, Type: b2Vec2[], Desc: Array of vertices to denote  The Trigger.<br>
+     * Var: vertices_pb1, Type: b2Vec2[], Desc: Array of vertices to denote The Trigger.<br>
+     * Var: polygon_pb, Type: b2PolygonShape, Desc: The shape corresponding to The Trigger.<br>
+     * Var: bd_pb, Type: b2BodyDef, Desc: The actual body denoting The Trigger.<br>
+     *  Var: fd_pd, Type: b2FixtureDef *, Desc: This is a pointer to stopper The Trigger.<br>
+     * Var: body2, Type: b2Body*, Desc: This is a pointer to The Trigger.<br>
+     * Var:jointDefrod , Type:b2RevoluteJointDef ,Desc:The actual joint denoting the Trigger<br>
+     * Var:jointDeft , Type:b2RevoluteJointDef ,Desc:The actual joint denoting the Trigger<br>
+     */ 
       {
 		  
 		  b2Vec2 vertices_pb[4];
@@ -517,6 +606,37 @@ namespace cs296
       
       
       //The trigger mechanism
+      
+      /*! \par The trigger mechanism
+      * Var: vertices, Type: b2Vec2[], Desc: Array of vertices to denote  The Trigger mechanism.<br>
+     * Var: vertices1, Type: b2Vec2[], Desc: Array of vertices to denote The Trigger mechanism .<br>
+     * Var: vertices2, Type: b2Vec2[], Desc: Array of vertices to denote The Trigger mechanism .<br>
+      * Var: vertices3, Type: b2Vec2[], Desc: Array of vertices to denote The Trigger mechanism .<br>
+       * Var: vertices5, Type: b2Vec2[], Desc: Array of vertices to denote The Trigger mechanism .<br>
+        * Var: polygon, Type: b2PolygonShape, Desc: The shape corresponding to The Trigger mechanism.<br>
+        * Var: polygon1, Type: b2PolygonShape, Desc: The shape corresponding to The Trigger mechanism.<br>
+        * Var: polygon2, Type: b2PolygonShape, Desc: The shape corresponding to The Trigger mechanism.<br>
+        * Var: polygon3, Type: b2PolygonShape, Desc: The shape corresponding to The Trigger mechanism.<br>
+        * Var: polygon4, Type: b2PolygonShape, Desc: The shape corresponding to The Trigger mechanism.<br>
+        * Var: polygon5, Type: b2PolygonShape, Desc: The shape corresponding to The Trigger mechanism.<br>
+     * Var: shape, Type: b2PolygonShape, Desc: The shape corresponding to Right boundary.<br>
+     * Var: bd, Type: b2BodyDef, Desc: The actual body denoting the Right boundary.<br>
+     * Var: ground, Type: b2Body*, Desc: This is a pointer to Right boundary.<br>
+     */ 
+     
+     /*! \par Lower Block
+     * Var: shape, Type: b2PolygonShape, Desc: The shape corresponding to Lower Block.<br>
+     * Var: bd3, Type: b2BodyDef, Desc: The actual body denoting the Lower Block.<br>
+     * Var: fd3, Type: b2FixtureDef *, Desc: This is a pointer to Lower Block.<br>
+     *   Var: body3, Type: b2body *, Desc: This is a pointer to Lower Block.<br>
+     */ 
+     
+     
+	   /*! \par Upper Block
+     * Var: bd31, Type: b2BodyDef, Desc: The actual body denoting the Upper Block.<br>
+     * Var: fd31, Type: b2FixtureDef *, Desc: This is a pointer to Upper Block.<br>
+     *   Var: body31, Type: b2body *, Desc: This is a pointer to Upper Block.<br>
+     */  
     {
 		
 			 b2Vec2 vertices[4];
@@ -613,6 +733,12 @@ namespace cs296
       
       
        //back stopper (stops the pullback mecahnism from breaking away*******************
+      /*! \par back stopper (stops the pullback mecahnism from breaking away)
+     * Var: shape2, Type: b2PolygonShape, Desc: The shape corresponding to back stopper<br>
+     * Var: bd32, Type: b2BodyDef, Desc: The actual body denoting the back stopper.<br>
+     * Var: fd32, Type: b2FixtureDef *, Desc: This is a pointer to back stopper.<br>
+     *   Var: body32, Type: b2body *, Desc: This is a pointer to back stopper.<br>
+     */  
       b2PolygonShape shape2;
       shape2.SetAsBox(0.2f, 5.0f);
       
@@ -631,6 +757,16 @@ namespace cs296
  
      
 		//The pullback mechanism  ************************
+		
+		/*! \par The pullback mechanism
+		 * Variable: polygon_pb, Type: b2PolygonShape, Desc: Polygon made using thae array of verticies verticies_pb[]<br>
+		 * Variable: polygon_pb1, Type: b2PolygonShape, Desc: Polygon made using thae array of verticies verticies_pb1[]<br>
+		 * Variable: polygon_pb2, Type: b2PolygonShape, Desc: Polygon made using thae array of verticies verticies_pb2[]<br>
+		 * Variable: polygon_pb3, Type: b2PolygonShape, Desc: Polygon made using thae array of verticies verticies_pb3[]<br>
+		 * Variable: polygon_pb4, Type: b2PolygonShape, Desc: Polygon made using thae array of verticies verticies_pb4[]<br>
+		 * Variable: bd_pb2, Type: b2BodyDef, Desc: The body definition of the pin hitting the bullet<br>
+		 * Variable: fd_pb2, Type: b2FixtureDef; Desc: Fixture of the above body<br>
+		 */
 		
 		
 		b2Vec2 vertices_pb[3];
@@ -709,7 +845,17 @@ namespace cs296
 		
 		int myint=108;
 		body_pb2->SetUserData((void*)myint);
-
+		/*!
+		 * \par Rods in pullback
+		 * variable: bd_pb, Type: b2BodyDef, Desc: Definiton of the lower ord of pullback mechanism<br>
+		 * Variable: fd_pb, Type: b2FixtureDef; Desc: Fixture definition of the lower rod<br>
+		 * Variable : body_pb, Type: b2Body, Desc: lower rod<br>
+		 * variable: bd_pb1, Type: b2BodyDef, Desc: Definiton of the upper ord of pullback mechanism<br>
+		 * Variable: fd_pb1, Type: b2FixtureDef; Desc: Fixture definition of the upper rod<br>
+		 * Variable : body_pb1, Type: b2Body, Desc: upper rod<br>
+		 * These use the above defined shapes polygon_pb,etc<br>
+		 * Varible: myint_body_pb, Type: int, Desc: variable used for identifying body_pb<br>
+		 */	
 		
 		
 		// The lower rod in the pullback mechanism
@@ -754,6 +900,13 @@ namespace cs296
 		
 		
 		/////The bullet stopper just above the magazine///////
+		/*!
+		 * \par bullet stopper<br>
+		 * Var: bulstop, Type: b2BodyDef, Desc: Body definiton of the stopper<br>
+		 * Var: bulletstopper, Type: b2Body*, Desc: the stopper<br>
+		 * Var: fd_bulstop, Type: b2FixtureDef, Desc: Fixture definiton of the stopper<br>
+		 * Var: s_bulstop, Type: b2PolygonShape, Desc: Shape of the stopper<br>
+		 */
 		b2BodyDef bulstop;
 		bulstop.position.Set(15.5,20.0f);
 		b2Body* bulletstopper = m_world->CreateBody(&bulstop);
@@ -767,6 +920,15 @@ namespace cs296
 		
 		
 		// These distance joints act as springs to keep the pullback mechanism go forward if force on it becomes zero.
+		/*!
+		 * \par springs
+		 * Var: joint4, Type: b2DistanceJointDef, Desc: A spring (distance joint) used in pullback mechanism to move it in forward direction when force is 0<br>
+		 * Var: joint5, Type: b2DistanceJointDef, Desc: Second spring<br>
+		 * Var: point6, Type: const b2Vec2, Desc: one end of joint4<br>
+		 * Var: point7, Type: const b2Vec2, Desc: other end of joint4<br>
+		 * Var: point8, Type: const b2Vec2, Desc: one end of joint5<br>
+		 * Var: point9, Type: const b2Vec2, Desc: other end of joint5<br>
+		 */
 		b2DistanceJointDef joint4; 
 		const b2Vec2 point6(13.5f, 20.5f); 
 		const b2Vec2 point7(22.5f, 20.0f); 
@@ -791,6 +953,15 @@ namespace cs296
 		 
 		 // These four joints ie. joint6 -joint 9 keep the hitting pin attached to the pullback mechanism's upper 
 		 // and lower rods.
+		 
+		 /*!
+		  * \par joints between hitting pin and rods
+		  * Var: joint6 , Type: b2DistanceJointDef, Desc: used to attach body_pb1, body_pb2 i.e for lower block<br>
+		  * Var: joint7 , Type: b2DistanceJointDef, Desc: used to attach body_pb, body_pb2 i.e for upper block<br>
+		  * Var: joint8 , Type: b2DistanceJointDef, Desc: used to attach body_pb1, body_pb2 i.e for lower block<br>
+		  * Var: joint9 , Type: b2DistanceJointDef, Desc: used to attach body_pb, body_pb2 i.e for upper block<br>
+		  * Var: point10-point17, Type: const b2Vec2, Desc: Endpoints of above joints<br>
+		  */
 		 b2DistanceJointDef joint6; 
 		const b2Vec2 point10(24.0f, 23.5f); 
 		const b2Vec2 point11(16.5f, 23.2f); 
@@ -836,6 +1007,12 @@ namespace cs296
 		 
 		 //These three prismatic joints forbids the motion of the pullback
 		 // mechanism in vertical axis.
+		 /*!
+		  * \par prismatic joints
+		  * Var: jointDef_pb, Type: b2PrismaticJointDef, Desc: Restricts vertical motion for body_pb i.e upper body<br>
+		  * Var: jointDef_pb1, Type: b2PrismaticJointDef, Desc: Restricts vertical motion for body_pb i.e lower body<br>
+		  * Var: jointDef_pb2, Type: b2PrismaticJointDef, Desc: Restricts vertical motion for body_pb i.e hitting pin<br>
+		  */
 		 
 		 b2PrismaticJointDef jointDef_pb;
 		//b2Vec2 worldAxis(1.0f, 0.0f);
@@ -871,6 +1048,13 @@ namespace cs296
 		 
 		 
 	  // The hammer which hits the hitting pin once the trigger is pressed.
+	  
+	  /*!
+	   * \par Hammer 
+	   * Var: bdx, Type:b2BodyDef, Desc: body definition of hammer  <br>
+	   * Var: bodyx, Type:b2Body, Desc: main body of hammer  <br>
+	   * Var: fdx, Type: new b2FixtureDef, Desc: Fixture of the hammer<br>
+	   */
 	  b2BodyDef bdx;
       bdx.position.Set(34.0f, 20.0f);
       bdx.type = b2_dynamicBody;
@@ -888,6 +1072,12 @@ namespace cs296
 
     
       // Small object which prevents the trigger stopper to go beyond certain distance.
+      /*!
+       * \par The object which prevents the trigger to go beyond certain distance
+       * Var: shapenew, Type: b2PolygonShape, Desc: The shape of the body<br>
+       * Var: bodynew,Type: b2Body*, Desc: the body of the object<br>
+       * Var: fdnew, Type: b2FixtureDef*, Desc: the fixture of the body<br>  
+       */
       b2PolygonShape shapenew;
       shapenew.SetAsBox(0.2f, 0.2f);
       b2BodyDef bdnew;
@@ -903,6 +1093,12 @@ namespace cs296
       //This is the part which defines where the hammer will be attached and the power 
       // with which it will strike at the hitting pin. Instead of spring motor has been
       // used to deliver the torque to the hammer.
+      /*!
+       * \par Motor delivering the torque
+       * var:bd2, Type: b2BodyDef, Desc: Body definition of the body <br>
+       * var:body2, Type: b2Body*, Desc: Main body of the body <br>
+       * Var: jointDef, Type: b2RevoluteJointDef, Desc: The joint which generates the torque<br>
+       */
       b2BodyDef bd2;
       bd2.position.Set(34.0f, 16.0f);
       b2Body* body2 = m_world->CreateBody(&bd2);
@@ -922,6 +1118,13 @@ namespace cs296
       }
       
       /////// The handle which the user holds while pressing the trigger////////////////
+		/*!
+	   * \par Handle
+	   * Var: vertices[], Type: array of b2Vec2, Desc: verticies of the handle<br>
+	   * Var: shape, Type: b2PolygonShape, Desc: shape of the handle<br>
+	   * Var: body, Type:  b2Body*, Desc: Main body of the hammer<br>
+	   * Var: fd, Type: b2FixtureDef, Desc: Fixture of the hammer<br>
+	   */
       {
 		  b2Vec2 vertices[4];
 			vertices[0].Set(0.0f, 0.0f);
@@ -947,6 +1150,13 @@ namespace cs296
 	  
 	  /////////////// The bricks (just to make the simulation more interesting)///////////////
 	  {
+		  
+		  /*!
+		   * \par Bricks
+		   * Var: shape, Type: b2PolygonShape, Desc: Shape of the bricks<br>
+		   * Var: g,Type: b2Body*, Desc: ths body of the brick<br>
+		   * Var: fd, Type: b2FixtureDef, Desc: the fixture of the brick<br>
+		   */
 		  b2PolygonShape shape;
 				shape.SetAsBox(20.0f,2.0f);
 				b2BodyDef bd;

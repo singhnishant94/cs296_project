@@ -118,6 +118,8 @@ void create_glui_ui(void)
 }
 
 //////////////////////////////////////
+/*! \par To get the timing data
+ */
 void print_avtime(int iterations_count){
 
 float32 time_step=1/settings_hz;
@@ -153,7 +155,8 @@ printf("Average time for position updates is %f ms\n",pos_t/iterations_count);
 //! This is the main function
 int main(int argc, char** argv)
 {
-  // On providing auto as the argument simulation happens automatically.	
+  /*! \brief On providing auto as the argument simulation happens automatically.
+   */	
   if (argc > 1) {
 	  std::string arg1(argv[1]);
 	  std::cout<<arg1;
@@ -191,6 +194,8 @@ int main(int argc, char** argv)
   glutTimerFunc(frame_period, callbacks_t::timer_cb, 0);
   
   ///////////////////////
+  /*! \brief Providing the iteration number as command line argument
+ */
   if(argc > 2  ){
 	  struct timeval tv;
     gettimeofday(&tv,NULL);
