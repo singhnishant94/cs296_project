@@ -136,6 +136,7 @@ clean:
 	@rm -rf ./doc/*.log
 	@rm -rf ./doc/*.pdf
 	@rm -rf ./doc/*.html
+	@rm -rf ./doc/html
 	
 distclean: clean
 	@rm -rf mylibs myobjs mybins
